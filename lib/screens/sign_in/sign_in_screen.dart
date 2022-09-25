@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:otakusukejuru/screens/sign_in/components/sign_in_textfield.dart';
+import 'package:flutter/services.dart';
+import 'package:otakusukejuru/components/sign_textfields.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignInScreenState extends State<SignInScreen> {
+  //controladores para os textfields
   final _userController = TextEditingController();
   final _passwordController = TextEditingController();
   var _userName;
@@ -20,6 +22,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
     _userController.addListener((_updateUser));
     _passwordController.addListener((_updatePassword));
+  }
+
+  @override
+  void dispose() {
+    _userController.dispose();
+    _passwordController.dispose();
+    super.dispose;
   }
 
   void _updateUser() {
@@ -36,6 +45,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //Força esta tela a estar na vertical. Pode não funcionar em alguns dispositivos IOS.
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    //Retorna a tela do programa em si.
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -70,19 +85,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 60.0),
-                  //Teste para ver se os controllers estão funcionando
-                  Text(
-                    'user: ${_userController.text}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    'senha: ${_passwordController.text}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
+                  //Teste para ver se os controllers estão funcionando, TODO apagar ou deixar comentado depois.
+                  // Text(
+                  //   'user: ${_userController.text}',
+                  //   style: const TextStyle(
+                  //     color: Colors.white,
+                  //   ),
+                  // ),
+                  // Text(
+                  //   'senha: ${_passwordController.text}',
+                  //   style: const TextStyle(
+                  //     color: Colors.white,
+                  //   ),
+                  // ),
                   //Botão para logar com o google
                   TextButton(
                     onPressed:
@@ -101,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 90.0),
+                  const SizedBox(height: 80.0),
                   //Nome 'Usuário' pequeno em cima do campo de texto.
                   Row(
                     children: const [
@@ -148,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 5.0),
                   //Campo de texto que deve receber a senha e verificar se ele condiz com a senhha para o usuário no banco de dados para permitir o login do usuario.
-                  loginTextField("Senha", _passwordController),
+                  passwordTextField("Senha", _passwordController),
                   //Botão que leva a tela para recuperar a senha por email
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -169,8 +184,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 30.0),
                   //Botão para fazer login, ele deve comparar os dados com o banco de dados, se forem correspondentes deve autenticar o usuario.
                   TextButton(
-                    onPressed:
-                        null, //TODO colocar função para autenticar usuario.
+                    onPressed: () => {
+                      _userController.clear(),
+                      _passwordController.clear(),
+                    }, //TODO colocar função para autenticar usuario.
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.white,
                       minimumSize: const Size(120, 50),
@@ -185,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 30.0),
+                  const SizedBox(height: 40.0),
                   //Texto no final da tela, "Ainda não tem conta?"
                   const Text(
                     'Ainda não tem conta?',
@@ -206,7 +223,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       minimumSize: const Size(150, 50),
                     ),
                     child: const Text(
-                      'Cadastrar',
+                      'Criar Conta',
                       style: TextStyle(
                         color: Color(0xFF2C2F33),
                         fontFamily: 'OpenSans',
@@ -215,7 +232,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20.0),
+                  //SizedBox para dar espaço para o scrollview no caso de o dispositivos ser pequeno verticalmente.
+                  const SizedBox(height: 40.0),
                 ],
               ),
             ),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:otakusukejuru/screens/lost_password/lost_password_screen.dart';
+import 'package:otakusukejuru/screens/lost_username/lost_username_screen.dart';
+import 'package:otakusukejuru/screens/sign_up/sign_up_screen.dart';
 import 'screens/sign_in/sign_in_screen.dart';
 
 void main() {
@@ -17,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: const LoginScreen(),
+      home: const SignInScreen(),
     );
   }
 }
