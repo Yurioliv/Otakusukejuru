@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 Widget loginTextField(String texto, TextEditingController controlador) {
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 40.0),
+    padding: const EdgeInsets.symmetric(horizontal: 50.0),
     child: TextField(
       controller: controlador,
       style: const TextStyle(color: Color(0xFF2C2F33)),
@@ -18,7 +18,7 @@ Widget loginTextField(String texto, TextEditingController controlador) {
 
 Widget passwordTextField(String texto, TextEditingController controlador) {
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 40.0),
+    padding: const EdgeInsets.symmetric(horizontal: 50.0),
     child: TextField(
       obscureText: true,
       enableSuggestions: false,
