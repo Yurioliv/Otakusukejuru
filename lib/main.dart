@@ -1,10 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:otakusukejuru/screens/lost_password/lost_password_screen.dart';
-import 'package:otakusukejuru/screens/lost_username/lost_username_screen.dart';
-import 'package:otakusukejuru/screens/sign_up/sign_up_screen.dart';
 import 'screens/sign_in/sign_in_screen.dart';
 
-void main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 

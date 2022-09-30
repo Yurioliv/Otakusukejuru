@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "201870571011",
+    "project_id": "otakusukejuru",
+    "storage_bucket": "otakusukejuru.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:201870571011:android:872f7aa11573c9c923c036",
+        "android_client_info": {
+          "package_name": "com.example.otakusukejuru"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "201870571011-vvbqhghfao36ievkl0abvmn465hed08j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsqxiuVwyNAsBo2EP-kLHuvBVkmW3XmQg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "201870571011-vvbqhghfao36ievkl0abvmn465hed08j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
