@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:otakusukejuru/services/auth_service.dart';
 import 'package:otakusukejuru/components/sign_textfields.dart';
 import 'package:otakusukejuru/screens/lost_password/lost_password_screen.dart';
 import 'package:otakusukejuru/screens/lost_username/lost_username_screen.dart';
@@ -14,29 +15,29 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   //controladores para os textfields
-  final _userController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  var _userName;
+  var _emailName;
   var _passwordName;
 
   @override
   void initState() {
     super.initState();
 
-    _userController.addListener((_updateUser));
+    _emailController.addListener((_updateUser));
     _passwordController.addListener((_updatePassword));
   }
 
   @override
   void dispose() {
-    _userController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
   void _updateUser() {
     setState(() {
-      _userName = _userController.text;
+      _emailName = _emailController.text;
     });
   }
 
@@ -90,6 +91,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     TextButton(
                       onPressed: () {
                         FocusScope.of(context).requestFocus(FocusNode());
+                        AuthService().singInWithGoogle();
                       },
                       //TODO colocar função para acesso pelo google.
                       style: TextButton.styleFrom(
@@ -113,7 +115,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         Padding(
                           padding: EdgeInsets.only(left: 50.0),
                           child: Text(
-                            'Usuário:',
+                            'Email:',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
@@ -121,7 +123,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                     const SizedBox(height: 5.0),
                     //Campo de texto que deve receber o nome de usuario e verificar se ele condiz com algum nome no banco de dados para permitir o login do usuario.
-                    loginTextField("Nome de usuário", _userController),
+                    loginTextField("Email", _emailController),
                     //Botão que leva a tela para recuperar o nome de usuario por email
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -187,9 +189,9 @@ class _SignInScreenState extends State<SignInScreen> {
                     //Botão para fazer login, ele deve comparar os dados com o banco de dados, se forem correspondentes deve autenticar o usuario.
                     TextButton(
                       onPressed: () {
-                        _userController.clear();
-                        _passwordController.clear();
                         FocusScope.of(context).requestFocus(FocusNode());
+                        AuthService().signInWithEmailAndPassword(
+                            _emailName, _passwordName);
                       }, //TODO colocar função para autenticar usuario.
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.white,
