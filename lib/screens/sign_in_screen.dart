@@ -1,10 +1,11 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:otakusukejuru/services/auth_service.dart';
 import 'package:otakusukejuru/components/sign_textfields.dart';
-import 'package:otakusukejuru/screens/lost_password/lost_password_screen.dart';
-import 'package:otakusukejuru/screens/lost_username/lost_username_screen.dart';
-import 'package:otakusukejuru/screens/sign_up/sign_up_screen.dart';
+import 'package:otakusukejuru/screens/lost_password_screen.dart';
+import 'package:otakusukejuru/screens/lost_username_screen.dart';
+import 'package:otakusukejuru/screens/sign_up_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -123,7 +124,8 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                     const SizedBox(height: 5.0),
                     //Campo de texto que deve receber o nome de usuario e verificar se ele condiz com algum nome no banco de dados para permitir o login do usuario.
-                    loginTextField("Email", _emailController),
+                    EmailTextField(
+                        texto: "Email", controlador: _emailController),
                     //Botão que leva a tela para recuperar o nome de usuario por email
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -134,10 +136,12 @@ class _SignInScreenState extends State<SignInScreen> {
                             onPressed: () {
                               FocusScope.of(context).requestFocus(FocusNode());
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const LostUsernameScreen()));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const LostUsernameScreen(),
+                                ),
+                              );
                             }, //TODO colocar função que leva para tela de esqueceu o nome de usuario
                             child: const Text(
                               'Esqueceu seu nome de usuário?',
@@ -161,7 +165,8 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                     const SizedBox(height: 5.0),
                     //Campo de texto que deve receber a senha e verificar se ele condiz com a senhha para o usuário no banco de dados para permitir o login do usuario.
-                    passwordTextField("Senha", _passwordController),
+                    PasswordTextField(
+                        texto: "Senha", controlador: _passwordController),
                     //Botão que leva a tela para recuperar a senha por email
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -189,10 +194,71 @@ class _SignInScreenState extends State<SignInScreen> {
                     //Botão para fazer login, ele deve comparar os dados com o banco de dados, se forem correspondentes deve autenticar o usuario.
                     TextButton(
                       onPressed: () {
-                        FocusScope.of(context).requestFocus(FocusNode());
-                        AuthService().signInWithEmailAndPassword(
-                            _emailName, _passwordName);
-                      }, //TODO colocar função para autenticar usuario.
+                        //Validações de email e senha
+                        if (_emailName == null || _emailName.isEmpty) {
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: const Text('Campo email vazio'),
+                                    content: const Text(
+                                        'O campo email não pode estar vazio, por favor escreva o seu email ja cadastrado, se não tiver se cadastrado ainda clique no botão Criar Conta.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text('Ok'),
+                                      ),
+                                    ],
+                                  ));
+                        } else if (!EmailValidator.validate(_emailName)) {
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: const Text('Insira um email valido'),
+                                    content: const Text(
+                                        'O email digitado é invalido, verifique se digitou o email corretamente.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text('Ok'),
+                                      ),
+                                    ],
+                                  ));
+                        } else if (_passwordName == null ||
+                            _passwordName.isEmpty) {
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: const Text('Campo senha vazio'),
+                                    content: const Text(
+                                        'O campo senha não pode estar vazio, por favor escreva a senha referente ao seu email.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text('Ok'),
+                                      ),
+                                    ],
+                                  ));
+                        } else if (_passwordName.length < 8) {
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: const Text(
+                                        'Campo senha com menos de 8 caracteres'),
+                                    content: const Text(
+                                        'O campo senha não pode ter menos que 8 caracteres.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text('Ok'),
+                                      ),
+                                    ],
+                                  ));
+                        } else {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          AuthService().signInWithEmailAndPassword(
+                              _emailName, _passwordName, context);
+                        } //TODO colocar função para autenticar usuario.
+                      },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.white,
                         minimumSize: const Size(120, 50),

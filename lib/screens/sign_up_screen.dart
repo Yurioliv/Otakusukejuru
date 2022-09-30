@@ -108,28 +108,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 60.0),
-                      //Botão para logar com o google.
-                      TextButton(
-                        onPressed: () {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          AuthService().singInWithGoogle();
-                        }, //TODO colocar função para acesso/cadastro pelo google.
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          minimumSize: const Size(250, 50),
-                        ),
-                        child: const Text(
-                          'Logar com google',
-                          style: TextStyle(
-                            color: Color(0xFF2C2F33),
-                            fontFamily: 'OpenSans',
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 30.0),
+                      const SizedBox(height: 40.0),
                       //Linha divisora.
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 60.0),
@@ -137,7 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 30.0),
+                      const SizedBox(height: 40.0),
                       //Texto "insira as informações a baixo" entre o divisor e os textfields na tela.
                       const Text(
                         'Insira as informações a baixo',
@@ -150,14 +129,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       const SizedBox(height: 30.0),
                       //TextFields para que o usuario digite os dados a serem cadastrados.
-                      loginTextField("Email", _emailController),
+                      EmailTextField(
+                          texto: "Email", controlador: _emailController),
                       const SizedBox(height: 10.0),
-                      loginTextField("Usuário", _userController),
+                      UserTextField(
+                          texto: "Nome de Usuário",
+                          controlador: _userController),
                       const SizedBox(height: 10.0),
-                      passwordTextField("Senha", _passwordController),
+                      PasswordTextField(
+                          texto: "Senha", controlador: _passwordController),
                       const SizedBox(height: 10.0),
-                      passwordTextField(
-                          "Confirmar Senha", _cPasswordController),
+                      PasswordTextField(
+                          texto: "Confirmar Senha",
+                          controlador: _cPasswordController),
                       const SizedBox(height: 60.0),
                       //Botão para fazer o cadastro com os dados.
                       TextButton(
@@ -165,8 +149,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           FocusScope.of(context).requestFocus(FocusNode());
                           AuthService().signUpWithEmailAndPassword(
                               _emailName, _passwordName);
+
                           Navigator.pop(context);
-                        }, //TODO colocar função para comunicar com o banco de dados e fazer cadastro.
+                        }, //TODO colocar função para comunicar com o banco de dados e fazer cadastro. Colocar tambem validação de campos do cadastro
                         style: TextButton.styleFrom(
                           backgroundColor: Colors.white,
                           minimumSize: const Size(150, 50),

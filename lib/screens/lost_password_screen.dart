@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:otakusukejuru/components/sign_textfields.dart';
-import 'package:otakusukejuru/screens/sign_in/sign_in_screen.dart';
+import 'package:otakusukejuru/screens/sign_in_screen.dart';
 
 class LostPasswordScreen extends StatefulWidget {
   const LostPasswordScreen({super.key});
@@ -89,7 +89,8 @@ class _LostPasswordScreenState extends State<LostPasswordScreen> {
                     ),
                     const SizedBox(height: 80.0),
                     //TextFields para que o usuario digite os dados a serem cadastrados.
-                    loginTextField("Email", _emailController),
+                    EmailTextField(
+                        texto: "Email", controlador: _emailController),
                     const SizedBox(height: 60.0),
                     //Botão para enviar pedido de recuperação de senha para o banco de dados.
                     TextButton(
