@@ -24,8 +24,8 @@ class AuthService {
 
   // Cadastro de login com email e senha
   // TODO enviar tambem nome de usuario, eu acho que no FirebaseAuth é algo como DisplayName
-  signUpWithEmailAndPassword(
-      String email, String password, BuildContext context) async {
+  signUpWithEmailAndPassword(String email, String password, String userName,
+      BuildContext context) async {
     try {
       await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -54,6 +54,7 @@ class AuthService {
     }
 
     // Acontece se não haverem Exceptions
+    AuthService().sendVerificantionEmail();
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -64,6 +65,10 @@ class AuthService {
           content: const Text(
               'Foi mandada uma mensagem para verificação de email, por favor acesse seu email e realize a verificação.'),
           actions: [
+            TextButton(
+              onPressed: () => AuthService().sendVerificantionEmail(),
+              child: const Text('Reenviar email de verificação'),
+            ),
             TextButton(
               onPressed: () => {
                 Navigator.pop(context),
@@ -123,6 +128,12 @@ class AuthService {
         );
       }
     }
+  }
+
+  // Envia email de verificação
+  Future sendVerificantionEmail() async {
+    final user = FirebaseAuth.instance.currentUser!;
+    await user.sendEmailVerification();
   }
 
   // Login com google

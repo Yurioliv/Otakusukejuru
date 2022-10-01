@@ -1,3 +1,5 @@
+import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:otakusukejuru/components/sign_textfields.dart';
@@ -93,8 +95,64 @@ class _LostPasswordScreenState extends State<LostPasswordScreen> {
                     const SizedBox(height: 60.0),
                     //Botão para enviar pedido de recuperação de senha para o banco de dados.
                     TextButton(
-                      onPressed:
-                          null, //TODO colocar função para comunicar com o banco de dados e fazer pedido de recuperação de senha.
+                      onPressed: () {
+                        if (_emailName == null || _emailName.isEmpty) {
+                          showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: const Text('Campo email vazio'),
+                                    content: const Text(
+                                        'O campo email não pode estar vazio, por favor escreva o seu email ja cadastrado, se não tiver se cadastrado ainda clique no botão Criar Conta.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text('Ok'),
+                                      ),
+                                    ],
+                                  ));
+                        } else if (!EmailValidator.validate(_emailName)) {
+                          showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: const Text('Insira um email valido'),
+                                    content: const Text(
+                                        'O email digitado é invalido, verifique se digitou o email corretamente.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text('Ok'),
+                                      ),
+                                    ],
+                                  ));
+                        } else {
+                          FirebaseAuth.instance
+                              .sendPasswordResetEmail(email: _emailName);
+                          showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (context) => WillPopScope(
+                              onWillPop: () => Future.value(false),
+                              child: AlertDialog(
+                                title: const Text(
+                                    'Mensagem para troca de senha enviada'),
+                                content: const Text(
+                                    'Por favor acesse seu email e clique no link disponibilizado para trocar sua conta.'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => {
+                                      Navigator.pop(context),
+                                      Navigator.pop(context),
+                                    },
+                                    child: const Text('Ok'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }
+                      }, //TODO colocar função para comunicar com o banco de dados e fazer pedido de recuperação de senha.
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.white,
                         minimumSize: const Size(200, 50),

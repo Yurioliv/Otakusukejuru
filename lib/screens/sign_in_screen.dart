@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:otakusukejuru/services/auth_service.dart';
 import 'package:otakusukejuru/components/sign_textfields.dart';
 import 'package:otakusukejuru/screens/lost_password_screen.dart';
-import 'package:otakusukejuru/screens/lost_username_screen.dart';
 import 'package:otakusukejuru/screens/sign_up_screen.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -126,29 +125,8 @@ class _SignInScreenState extends State<SignInScreen> {
                     EmailTextField(
                         texto: "Email", controlador: _emailController),
                     //Botão que leva a tela para recuperar o nome de usuario por email
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.only(right: 40.0),
-                          child: TextButton(
-                            onPressed: () {
-                              FocusScope.of(context).requestFocus(FocusNode());
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const LostUsernameScreen(),
-                                ),
-                              );
-                            },
-                            child: const Text(
-                              'Esqueceu seu nome de usuário?',
-                              style: TextStyle(color: Color(0xFF7289DA)),
-                            ),
-                          ),
-                        ),
-                      ],
+                    const SizedBox(
+                      height: 40,
                     ),
                     //Nome 'Senha' pequeno em cima do campo de texto.
                     Row(
@@ -193,7 +171,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     //Botão para fazer login, ele deve comparar os dados com o banco de dados, se forem correspondentes deve autenticar o usuario.
                     TextButton(
                       onPressed: () {
-                        //Validações de email e senha, TODO verificar se ja foi feita a verificação de email
+                        //Validações de email e senha
                         if (_emailName == null || _emailName.isEmpty) {
                           showDialog(
                               barrierDismissible: false,
@@ -260,6 +238,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           FocusScope.of(context).requestFocus(FocusNode());
                           AuthService().signInWithEmailAndPassword(
                               _emailName, _passwordName, context);
+                          //TODO verificar se email do usuario ja foi verificado
                         }
                       },
                       style: TextButton.styleFrom(

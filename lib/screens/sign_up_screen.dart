@@ -271,7 +271,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             );
                           } else {
                             AuthService().signUpWithEmailAndPassword(
-                                _emailName, _passwordName, context);
+                                _emailName, _passwordName, _userName, context);
                           }
                         },
                         style: TextButton.styleFrom(
