@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -23,7 +25,6 @@ class AuthService {
   }
 
   // Cadastro de login com email e senha
-  // TODO enviar tambem nome de usuario, eu acho que no FirebaseAuth é algo como DisplayName
   signUpWithEmailAndPassword(String email, String password, String userName,
       BuildContext context) async {
     try {
@@ -31,6 +32,7 @@ class AuthService {
         email: email,
         password: password,
       );
+      _auth.currentUser?.updateDisplayName(userName);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         showDialog(
@@ -54,7 +56,7 @@ class AuthService {
     }
 
     // Acontece se não haverem Exceptions
-    AuthService().sendVerificantionEmail();
+    sendVerificantionEmail();
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -66,7 +68,7 @@ class AuthService {
               'Foi mandada uma mensagem para verificação de email, por favor acesse seu email e realize a verificação.'),
           actions: [
             TextButton(
-              onPressed: () => AuthService().sendVerificantionEmail(),
+              onPressed: () => sendVerificantionEmail(),
               child: const Text('Reenviar email de verificação'),
             ),
             TextButton(
@@ -89,10 +91,15 @@ class AuthService {
   signInWithEmailAndPassword(
       String email, String password, BuildContext context) async {
     try {
-      await _auth.signInWithEmailAndPassword(
+      User? user = (await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
-      );
+      ))
+          .user;
+      //se email do usuario não tiver sido verificado é feito um throw
+      if (user?.emailVerified == false) {
+        throw 'email-not-verified';
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         showDialog(
@@ -118,6 +125,28 @@ class AuthService {
             title: const Text('Senha incorreta'),
             content: const Text(
                 'Senha incorreta ou email digitado errado, por favor tente corrigir o erro e entrar novamente.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Ok'),
+              ),
+            ],
+          ),
+        );
+      }
+    } // Se email do usuario não tiver sido verificado, o codigo abaixo é executado
+    catch (e) {
+      if (e == 'email-not-verified') {
+        sendVerificantionEmail();
+        // Como é impossivel saber os dados do usuario é necessario logar e deslogar, o usuário não percebe essa troca
+        signOut();
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Conta não verificada'),
+            content: const Text(
+                'Esta conta ainda não foi verificada, acesse seu email e procure por uma mensagem de nosso aplicativo.'),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),

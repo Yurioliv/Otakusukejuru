@@ -152,7 +152,7 @@ class _LostPasswordScreenState extends State<LostPasswordScreen> {
                             ),
                           );
                         }
-                      }, //TODO colocar função para comunicar com o banco de dados e fazer pedido de recuperação de senha.
+                      },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.white,
                         minimumSize: const Size(200, 50),

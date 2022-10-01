@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,6 +20,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final _passwordController = TextEditingController();
   var _emailName;
   var _passwordName;
+  late Timer timer;
 
   @override
   void initState() {
@@ -238,7 +240,6 @@ class _SignInScreenState extends State<SignInScreen> {
                           FocusScope.of(context).requestFocus(FocusNode());
                           AuthService().signInWithEmailAndPassword(
                               _emailName, _passwordName, context);
-                          //TODO verificar se email do usuario ja foi verificado
                         }
                       },
                       style: TextButton.styleFrom(
