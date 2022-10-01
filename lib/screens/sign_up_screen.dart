@@ -1,3 +1,5 @@
+import 'package:email_validator/email_validator.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:otakusukejuru/components/sign_textfields.dart';
@@ -79,7 +81,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       },
       child: GestureDetector(
         onTap: () {
-          FocusScope.of(context).requestFocus(FocusNode());
+          //FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Scaffold(
           backgroundColor: const Color(0xff23272A),
@@ -147,11 +149,131 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       TextButton(
                         onPressed: () {
                           FocusScope.of(context).requestFocus(FocusNode());
-                          AuthService().signUpWithEmailAndPassword(
-                              _emailName, _passwordName);
-
-                          Navigator.pop(context);
-                        }, //TODO colocar função para comunicar com o banco de dados e fazer cadastro. Colocar tambem validação de campos do cadastro
+                          //Validações de dados para cadastro
+                          if (_userName == null || _userName.isEmpty) {
+                            showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      title: const Text(
+                                          'Campo nome de usuário vazio'),
+                                      content: const Text(
+                                          'O campo nome de usuário não pode estar vazio, por favor escreva um nome para o seu usuário.'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: const Text('Ok'),
+                                        ),
+                                      ],
+                                    ));
+                          } else if (_emailName == null || _emailName.isEmpty) {
+                            showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      title: const Text('Campo email vazio'),
+                                      content: const Text(
+                                          'O campo email não pode estar vazio, por favor escreva um email para cadastro.'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: const Text('Ok'),
+                                        ),
+                                      ],
+                                    ));
+                          } else if (!EmailValidator.validate(_emailName)) {
+                            showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      title:
+                                          const Text('Insira um email valido'),
+                                      content: const Text(
+                                          'O email digitado é invalido, verifique se digitou o email corretamente.'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: const Text('Ok'),
+                                        ),
+                                      ],
+                                    ));
+                          } else if (_passwordName == null ||
+                              _passwordName.isEmpty) {
+                            showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      title: const Text('Campo senha vazio'),
+                                      content: const Text(
+                                          'O campo senha não pode estar vazio, por favor escreva uma senha.'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: const Text('Ok'),
+                                        ),
+                                      ],
+                                    ));
+                          } else if (_passwordName.length < 8) {
+                            showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      title: const Text(
+                                          'Campo senha com menos de 8 caracteres'),
+                                      content: const Text(
+                                          'O campo senha não pode ter menos que 8 caracteres.'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: const Text('Ok'),
+                                        ),
+                                      ],
+                                    ));
+                          } else if (_cPasswordName == null ||
+                              _cPasswordName.isEmpty) {
+                            showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      title: const Text(
+                                          'Campo confirmação de senha vazio'),
+                                      content: const Text(
+                                          'O campo confirmação de senha não pode estar vazio, por favor escreva a senha que você digitou no campo Senha acima.'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: const Text('Ok'),
+                                        ),
+                                      ],
+                                    ));
+                          } else if (_passwordName != _cPasswordName) {
+                            showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text(
+                                    'Senha e confirmação de senha são diferentes'),
+                                content: const Text(
+                                    'Tente reescrever as senhas e ter certeza de que elas são iguais.'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('Ok'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else {
+                            AuthService().signUpWithEmailAndPassword(
+                                _emailName, _passwordName, context);
+                          }
+                        },
                         style: TextButton.styleFrom(
                           backgroundColor: Colors.white,
                           minimumSize: const Size(150, 50),
@@ -170,8 +292,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const SizedBox(height: 30.0),
                       //Botão para voltar a tela anterior.
                       TextButton(
-                        onPressed: () => Navigator.pop(
-                            context), //TODO colocar função para voltar a tela anterior.
+                        onPressed: () => Navigator.pop(context),
                         style: TextButton.styleFrom(
                           minimumSize: const Size(110, 50),
                           maximumSize: const Size(110, 50),

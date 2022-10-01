@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:otakusukejuru/components/sign_textfields.dart';
-import 'package:otakusukejuru/screens/sign_in_screen.dart';
 
 class LostPasswordScreen extends StatefulWidget {
   const LostPasswordScreen({super.key});
@@ -113,8 +112,7 @@ class _LostPasswordScreenState extends State<LostPasswordScreen> {
                     const SizedBox(height: 180.0),
                     //Botão para voltar a tela anterior.
                     TextButton(
-                      onPressed: () => Navigator.pop(
-                          context), //TODO colocar função para voltar a tela anterior.
+                      onPressed: () => Navigator.pop(context),
                       style: TextButton.styleFrom(
                         minimumSize: const Size(110, 50),
                         maximumSize: const Size(110, 50),

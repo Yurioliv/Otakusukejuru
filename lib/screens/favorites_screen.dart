@@ -1,8 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:otakusukejuru/services/auth_service.dart';
 
 class FavoriteScreen extends StatefulWidget {
@@ -32,7 +28,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 FocusScope.of(context).requestFocus(FocusNode());
                 AuthService().signOut();
               },
-              //TODO colocar função para deslogar
               style: TextButton.styleFrom(
                 backgroundColor: Colors.white,
                 minimumSize: const Size(250, 50),

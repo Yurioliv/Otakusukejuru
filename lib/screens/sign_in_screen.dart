@@ -94,7 +94,6 @@ class _SignInScreenState extends State<SignInScreen> {
                         FocusScope.of(context).requestFocus(FocusNode());
                         AuthService().singInWithGoogle();
                       },
-                      //TODO colocar função para acesso pelo google.
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.white,
                         minimumSize: const Size(250, 50),
@@ -142,7 +141,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                       const LostUsernameScreen(),
                                 ),
                               );
-                            }, //TODO colocar função que leva para tela de esqueceu o nome de usuario
+                            },
                             child: const Text(
                               'Esqueceu seu nome de usuário?',
                               style: TextStyle(color: Color(0xFF7289DA)),
@@ -181,7 +180,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           const LostPasswordScreen()));
-                            }, //TODO colocar função que leva para tela de esqueceu a senha
+                            },
                             child: const Text(
                               'Esqueceu sua senha?',
                               style: TextStyle(color: Color(0xFF7289DA)),
@@ -194,9 +193,10 @@ class _SignInScreenState extends State<SignInScreen> {
                     //Botão para fazer login, ele deve comparar os dados com o banco de dados, se forem correspondentes deve autenticar o usuario.
                     TextButton(
                       onPressed: () {
-                        //Validações de email e senha
+                        //Validações de email e senha, TODO verificar se ja foi feita a verificação de email
                         if (_emailName == null || _emailName.isEmpty) {
                           showDialog(
+                              barrierDismissible: false,
                               context: context,
                               builder: (context) => AlertDialog(
                                     title: const Text('Campo email vazio'),
@@ -211,6 +211,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   ));
                         } else if (!EmailValidator.validate(_emailName)) {
                           showDialog(
+                              barrierDismissible: false,
                               context: context,
                               builder: (context) => AlertDialog(
                                     title: const Text('Insira um email valido'),
@@ -226,6 +227,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         } else if (_passwordName == null ||
                             _passwordName.isEmpty) {
                           showDialog(
+                              barrierDismissible: false,
                               context: context,
                               builder: (context) => AlertDialog(
                                     title: const Text('Campo senha vazio'),
@@ -240,6 +242,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   ));
                         } else if (_passwordName.length < 8) {
                           showDialog(
+                              barrierDismissible: false,
                               context: context,
                               builder: (context) => AlertDialog(
                                     title: const Text(
@@ -257,7 +260,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           FocusScope.of(context).requestFocus(FocusNode());
                           AuthService().signInWithEmailAndPassword(
                               _emailName, _passwordName, context);
-                        } //TODO colocar função para autenticar usuario.
+                        }
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.white,
@@ -292,8 +295,8 @@ class _SignInScreenState extends State<SignInScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SignUpScreen()));
-                      }, //TODO colocar função para enviar para tela de cadastro.
+                                builder: (context) => const SignUpScreen()));
+                      },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.white,
                         minimumSize: const Size(150, 50),
