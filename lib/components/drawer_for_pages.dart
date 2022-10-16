@@ -29,7 +29,7 @@ class DrawerForPages extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
               child: Text(
-                AuthService().userName,
+                AuthService().userName!,
                 style: const TextStyle(color: Colors.white, fontSize: 20),
               ),
             ),

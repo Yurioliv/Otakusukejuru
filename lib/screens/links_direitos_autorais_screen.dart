@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:otakusukejuru/screens/help_screen.dart';
 
 class LinksDireitosAutoriasScreen extends StatefulWidget {
@@ -17,11 +16,6 @@ class _LinksDireitosAutoriasScreenState
 
   @override
   Widget build(BuildContext context) {
-    //Força esta tela a estar na vertical. Pode não funcionar em alguns dispositivos IOS.
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
     //Retorna a tela do programa em si.
     return GestureDetector(
       onTap: () {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:otakusukejuru/screens/Cores_estado_screen.dart';
 import 'package:otakusukejuru/screens/links_direitos_autorais_screen.dart';
 import 'package:otakusukejuru/screens/objetivo_aplicativo_screen.dart';
@@ -18,11 +17,6 @@ class _HelpScreenState extends State<HelpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //Força esta tela a estar na vertical. Pode não funcionar em alguns dispositivos IOS.
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
     //Retorna a tela do programa em si.
     return GestureDetector(
       onTap: () {

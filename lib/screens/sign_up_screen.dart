@@ -1,7 +1,5 @@
 import 'package:email_validator/email_validator.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:otakusukejuru/components/sign_textfields.dart';
 import 'package:otakusukejuru/services/auth_service.dart';
 
@@ -68,11 +66,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //Força esta tela a estar na vertical. Pode não funcionar em alguns dispositivos IOS.
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
     return WillPopScope(
       onWillPop: () async {
         Navigator.pop(context);

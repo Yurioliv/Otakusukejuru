@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:otakusukejuru/components/drawer_for_pages.dart';
 import 'package:otakusukejuru/screens/change_username_screen.dart';
 import 'package:otakusukejuru/screens/help_screen.dart';
@@ -18,11 +17,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //Força esta tela a estar na vertical. Pode não funcionar em alguns dispositivos IOS.
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
     //Retorna a tela do programa em si.
     return GestureDetector(
       onTap: () {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:otakusukejuru/components/drawer_for_pages.dart';
 
 class ExplorationScreen extends StatefulWidget {
@@ -15,11 +14,6 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //Força esta tela a estar na vertical. Pode não funcionar em alguns dispositivos IOS.
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
     //Retorna a tela do programa em si.
     return GestureDetector(
       onTap: () {
