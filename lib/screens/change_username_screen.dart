@@ -1,37 +1,36 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:otakusukejuru/components/sign_textfields.dart';
 import 'package:otakusukejuru/services/auth_service.dart';
 
-class LostPasswordScreen extends StatefulWidget {
-  const LostPasswordScreen({super.key});
+class ChangeUserNameScreen extends StatefulWidget {
+  const ChangeUserNameScreen({super.key});
 
   @override
-  State<LostPasswordScreen> createState() => _LostPasswordScreenState();
+  State<ChangeUserNameScreen> createState() => ChangeUserNameScreenState();
 }
 
-class _LostPasswordScreenState extends State<LostPasswordScreen> {
+class ChangeUserNameScreenState extends State<ChangeUserNameScreen> {
   //controladores para os textfields
-  final _emailController = TextEditingController();
-  String _emailName = '';
+  final _userNameController = TextEditingController();
+  String _userName = '';
 
   @override
   void initState() {
     super.initState();
 
-    _emailController.addListener((_updateEmail));
+    _userNameController.addListener((_updateUserName));
   }
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _userNameController.dispose();
     super.dispose();
   }
 
-  void _updateEmail() {
+  void _updateUserName() {
     setState(() {
-      _emailName = _emailController.text;
+      _userName = _userNameController.text;
     });
   }
 
@@ -75,11 +74,11 @@ class _LostPasswordScreenState extends State<LostPasswordScreen> {
                       ),
                     ),
                     const SizedBox(height: 40.0),
-                    //Texto de explicação para recuperar senha
+                    //Texto de explicação para mudar usuario
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 40.0),
                       child: Text(
-                          'Por favor informe o email registrado a sua conta abaixo. Você recebera uma mensagem por email informando como fazer a troca para uma nova senha.',
+                          'Por favor informe o seu novo nome de usuário abaixo.',
                           style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'OpenSans',
@@ -90,35 +89,22 @@ class _LostPasswordScreenState extends State<LostPasswordScreen> {
                     ),
                     const SizedBox(height: 80.0),
                     //TextFields para que o usuario digite os dados a serem cadastrados.
-                    EmailTextField(
-                        texto: "Email", controlador: _emailController),
+                    UserTextField(
+                        texto: "Nome de usuário",
+                        controlador: _userNameController),
                     const SizedBox(height: 60.0),
                     //Botão para enviar pedido de recuperação de senha para o banco de dados.
                     TextButton(
                       onPressed: () {
-                        if (_emailName.isEmpty) {
+                        if (_userName.isEmpty) {
                           showDialog(
                               barrierDismissible: false,
                               context: context,
                               builder: (context) => AlertDialog(
-                                    title: const Text('Campo email vazio'),
+                                    title: const Text(
+                                        'Campo nome de usuário vazio'),
                                     content: const Text(
-                                        'O campo email não pode estar vazio, por favor escreva o seu email ja cadastrado, se não tiver se cadastrado ainda clique no botão Criar Conta.'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: const Text('Ok'),
-                                      ),
-                                    ],
-                                  ));
-                        } else if (!EmailValidator.validate(_emailName)) {
-                          showDialog(
-                              barrierDismissible: false,
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                    title: const Text('Insira um email valido'),
-                                    content: const Text(
-                                        'O email digitado é invalido, verifique se digitou o email corretamente.'),
+                                        'O campo nome de usuário não pode estar vazio, por favor escreva o seu novo nome de usuário'),
                                     actions: [
                                       TextButton(
                                         onPressed: () => Navigator.pop(context),
@@ -127,18 +113,16 @@ class _LostPasswordScreenState extends State<LostPasswordScreen> {
                                     ],
                                   ));
                         } else {
-                          AuthService()
-                              .changeUserPassword(userEmail: _emailName);
+                          AuthService().changeUserName(userName: _userName);
                           showDialog(
                             barrierDismissible: false,
                             context: context,
                             builder: (context) => WillPopScope(
                               onWillPop: () => Future.value(false),
                               child: AlertDialog(
-                                title: const Text(
-                                    'Mensagem para troca de senha enviada'),
+                                title: const Text('Nome de usuário mudado.'),
                                 content: const Text(
-                                    'Por favor acesse seu email e clique no link disponibilizado para trocar sua conta.'),
+                                    'Quando voltar ao menu seu nome de usuário ja estara mudado.'),
                                 actions: [
                                   TextButton(
                                     onPressed: () => {
@@ -158,7 +142,7 @@ class _LostPasswordScreenState extends State<LostPasswordScreen> {
                         minimumSize: const Size(200, 50),
                       ),
                       child: const Text(
-                        'Recuperar senha',
+                        'Mudar nome de usuário',
                         style: TextStyle(
                           color: Color(0xFF2C2F33),
                           fontFamily: 'OpenSans',

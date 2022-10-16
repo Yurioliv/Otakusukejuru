@@ -18,8 +18,8 @@ class _SignInScreenState extends State<SignInScreen> {
   //controladores para os textfields
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  var _emailName;
-  var _passwordName;
+  String _emailName = '';
+  String _passwordName = '';
   late Timer timer;
 
   @override
@@ -174,7 +174,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     TextButton(
                       onPressed: () {
                         //Validações de email e senha
-                        if (_emailName == null || _emailName.isEmpty) {
+                        if (_emailName.isEmpty) {
                           showDialog(
                               barrierDismissible: false,
                               context: context,
@@ -204,8 +204,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                       ),
                                     ],
                                   ));
-                        } else if (_passwordName == null ||
-                            _passwordName.isEmpty) {
+                        } else if (_passwordName.isEmpty) {
                           showDialog(
                               barrierDismissible: false,
                               context: context,

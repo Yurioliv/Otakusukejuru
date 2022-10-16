@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:otakusukejuru/components/drawer_for_pages.dart';
 
-class FavoriteScreen extends StatefulWidget {
-  const FavoriteScreen({super.key});
+class ExplorationScreen extends StatefulWidget {
+  const ExplorationScreen({super.key});
 
   @override
-  State<FavoriteScreen> createState() => _FavoriteScreenState();
+  State<ExplorationScreen> createState() => _ExplorationScreenState();
 }
 
-class _FavoriteScreenState extends State<FavoriteScreen> {
+class _ExplorationScreenState extends State<ExplorationScreen> {
   // Nome que sera apresentado na APPBAR
-  static const String pageName = 'Favoritos';
+  static const String pageName = 'Explorar';
 
   @override
   Widget build(BuildContext context) {

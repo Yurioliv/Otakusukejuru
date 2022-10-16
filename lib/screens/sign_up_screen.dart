@@ -18,10 +18,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _userController = TextEditingController();
   final _passwordController = TextEditingController();
   final _cPasswordController = TextEditingController();
-  var _emailName;
-  var _userName;
-  var _passwordName;
-  var _cPasswordName;
+  String _emailName = '';
+  String _userName = '';
+  String _passwordName = '';
+  String _cPasswordName = '';
 
   @override
   void initState() {
@@ -150,7 +150,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onPressed: () {
                           FocusScope.of(context).requestFocus(FocusNode());
                           //Validações de dados para cadastro
-                          if (_userName == null || _userName.isEmpty) {
+                          if (_userName.isEmpty) {
                             showDialog(
                                 barrierDismissible: false,
                                 context: context,
@@ -167,7 +167,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         ),
                                       ],
                                     ));
-                          } else if (_emailName == null || _emailName.isEmpty) {
+                          } else if (_emailName.isEmpty) {
                             showDialog(
                                 barrierDismissible: false,
                                 context: context,
@@ -200,8 +200,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         ),
                                       ],
                                     ));
-                          } else if (_passwordName == null ||
-                              _passwordName.isEmpty) {
+                          } else if (_passwordName.isEmpty) {
                             showDialog(
                                 barrierDismissible: false,
                                 context: context,
@@ -234,8 +233,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         ),
                                       ],
                                     ));
-                          } else if (_cPasswordName == null ||
-                              _cPasswordName.isEmpty) {
+                          } else if (_cPasswordName.isEmpty) {
                             showDialog(
                                 barrierDismissible: false,
                                 context: context,

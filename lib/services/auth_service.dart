@@ -24,6 +24,26 @@ class AuthService {
     );
   }
 
+  // Mudar senha do usuario
+  changeUserPassword({required String userEmail}) {
+    _auth.sendPasswordResetEmail(email: userEmail);
+  }
+
+  // Mudar nickname do usuario
+  // TODO colocar validador para quando usuario estiver sem internet
+  changeUserName({required String userName}) {
+    _auth.currentUser?.updateDisplayName(userName);
+  }
+
+  // Retorna nome de usuario
+  get userName {
+    return _auth.currentUser?.displayName;
+  }
+
+  get userImage {
+    return _auth.currentUser?.photoURL;
+  }
+
   // Cadastro de login com email e senha
   signUpWithEmailAndPassword(String email, String password, String userName,
       BuildContext context) async {
