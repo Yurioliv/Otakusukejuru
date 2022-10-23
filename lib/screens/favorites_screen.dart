@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:otakusukejuru/components/drawer_for_pages.dart';
 
@@ -11,6 +12,7 @@ class FavoriteScreen extends StatefulWidget {
 class _FavoriteScreenState extends State<FavoriteScreen> {
   // Nome que sera apresentado na APPBAR
   static const String pageName = 'Favoritos';
+  String tipoPagina = "Animes";
 
   @override
   Widget build(BuildContext context) {
@@ -28,47 +30,101 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             pageName,
             style: TextStyle(fontSize: 24.0),
           ),
+          iconTheme: const IconThemeData(
+            size: 32,
+            color: Colors.white,
+          ),
           // TODO adicionar funções nos gestureDetectors abaixo
           actions: [
             GestureDetector(
               onTap: () {},
-              child: const Icon(Icons.search, size: 32.0),
+              child: const Icon(Icons.search),
             ),
             const SizedBox(
               width: 15,
             ),
             GestureDetector(
               onTap: () {},
-              child: const Icon(Icons.label, size: 32.0),
+              child: const Icon(Icons.label),
             ),
             const SizedBox(
               width: 10,
             ),
           ],
         ),
+        // Bottom bar do Scaffold
+        bottomNavigationBar: BottomAppBar(
+          color: const Color(0xff23272A),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.060,
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Botão animes
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.49,
+                  child: GestureDetector(
+                    onTap: () => setState(() {
+                      tipoPagina = "Animes";
+                    }),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.49,
+                          child: const Text(
+                            "Animes",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 28,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // Divisores de espaço entre botões
+                VerticalDivider(
+                  color: const Color(0xff2C2F33),
+                  width: MediaQuery.of(context).size.width * 0.02,
+                ),
+                // Botão mangas
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.49,
+                  child: GestureDetector(
+                    onTap: () => setState(() {
+                      tipoPagina = "Mangas";
+                    }),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.49,
+                          child: const Text(
+                            "Mangas",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 28,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
         // Drawer do scaffold
         drawer: const DrawerForPages(),
         // Body do scaffold
-        body: Stack(
-          children: <Widget>[
-            SizedBox(
-              height: double.infinity,
-              width: double.infinity,
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                // Da um espaço do topo da tela até o 1° widget retirar na hora de criar realmente essa tela
-                padding: const EdgeInsets.only(
-                  top: 100.0,
-                ),
-                // TODO criar lista de animes em um grid abaixo
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[],
-                ),
-              ),
-            ),
-          ],
-        ),
+        // TODO criar lista de animes em um grid abaixo
+        body: Container(),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -71,6 +72,7 @@ class AuthService {
           ),
         );
       }
+
       // Faz com que se acontecer uma exception o codigo apos o catch não seja executado
       return;
     }
@@ -177,6 +179,25 @@ class AuthService {
         );
       }
     }
+
+    // Adicionando o email do usuario ao FirebaseStore
+    final snapShot = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(_auth.currentUser?.uid)
+        .get();
+
+    // Caso ja exista um documento com a id igual ao uid do usuario do firebaseAuth o algoritmo não fara nada,
+    // Caso não exista ele ira criar o documento com o email e uma lista de favoritos vazia
+    if (snapShot.exists) {
+    } else {
+      FirebaseFirestore.instance
+          .collection("Users")
+          .doc(_auth.currentUser?.uid)
+          .set({
+        "Email": _auth.currentUser?.email,
+        "Favoritos": [""],
+      });
+    }
   }
 
   // Envia email de verificação
@@ -199,6 +220,25 @@ class AuthService {
     );
 
     await _auth.signInWithCredential(credential);
+
+    // Adicionando o email do usuario ao FirebaseStore
+    final snapShot = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(_auth.currentUser?.uid)
+        .get();
+
+    // Caso ja exista um documento com a id igual ao uid do usuario do firebaseAuth o algoritmo não fara nada,
+    // Caso não exista ele ira criar o documento com o email e uma lista de favoritos vazia
+    if (snapShot.exists) {
+    } else {
+      FirebaseFirestore.instance
+          .collection("Users")
+          .doc(_auth.currentUser?.uid)
+          .set({
+        "Email": _auth.currentUser?.email,
+        "Favoritos": [""],
+      });
+    }
   }
 
   // Para sair da conta logada atualmente
