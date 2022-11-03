@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:otakusukejuru/components/drawer_for_pages.dart';
+import 'package:otakusukejuru/screens/anime_screen.dart';
+import 'package:otakusukejuru/screens/manga_screen.dart';
 
 class ExplorationScreen extends StatefulWidget {
   const ExplorationScreen({super.key});
@@ -16,6 +18,7 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaquery = MediaQuery.of(context);
     //Retorna a tela do programa em si.
     return GestureDetector(
       onTap: () {
@@ -40,15 +43,15 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
               onTap: () {},
               child: const Icon(Icons.search),
             ),
-            const SizedBox(
-              width: 15,
+            SizedBox(
+              width: mediaquery.size.width * 0.04,
             ),
             GestureDetector(
               onTap: () {},
               child: const Icon(Icons.label),
             ),
-            const SizedBox(
-              width: 10,
+            SizedBox(
+              width: mediaquery.size.width * 0.04,
             ),
           ],
         ),
@@ -56,14 +59,14 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
         bottomNavigationBar: BottomAppBar(
           color: const Color(0xff23272A),
           child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.060,
-            width: MediaQuery.of(context).size.width,
+            height: mediaquery.size.height * 0.07,
+            width: mediaquery.size.width,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Botão animes
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.49,
+                  width: mediaquery.size.width * 0.49,
                   child: GestureDetector(
                     onTap: () => setState(() {
                       tipoPagina = "Animes";
@@ -72,7 +75,7 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.49,
+                          width: mediaquery.size.width * 0.49,
                           child: const Text(
                             "Animes",
                             textAlign: TextAlign.center,
@@ -89,11 +92,11 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
                 // Divisores de espaço entre botões
                 VerticalDivider(
                   color: const Color(0xff2C2F33),
-                  width: MediaQuery.of(context).size.width * 0.02,
+                  width: mediaquery.size.width * 0.02,
                 ),
                 // Botão mangas
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.49,
+                  width: mediaquery.size.width * 0.49,
                   child: GestureDetector(
                     onTap: () => setState(() {
                       tipoPagina = "Mangas";
@@ -102,7 +105,7 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.49,
+                          width: mediaquery.size.width * 0.49,
                           child: const Text(
                             "Mangas",
                             textAlign: TextAlign.center,
@@ -148,43 +151,64 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
                     return Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: GridTile(
-                            child: Column(
-                              children: <Widget>[
-                                Image.network(
-                                  snapshoot.data!.docs
-                                      .elementAt(index)
-                                      .get("Url capa"),
-                                  loadingBuilder: (BuildContext contex,
-                                      Widget child,
-                                      ImageChunkEvent? loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        value: loadingProgress
-                                                    .expectedTotalBytes !=
-                                                null
-                                            ? loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                loadingProgress
-                                                    .expectedTotalBytes!
-                                            : null,
-                                      ),
-                                    );
-                                  },
-                                ),
-                                const SizedBox(
-                                  height: 2,
-                                ),
-                                Text(
-                                  snapshoot.data!.docs
-                                      .elementAt(index)
-                                      .get("Nome"),
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 16),
-                                ),
-                              ],
+                          padding:
+                              EdgeInsets.all(mediaquery.size.width * 0.022),
+                          child: GestureDetector(
+                            onTap: tipoPagina == "Animes"
+                                ? () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AnimeScreen(
+                                              snapshot: snapshoot.data!.docs
+                                                  .elementAt(index),
+                                            )))
+                                : () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MangaScreen(
+                                            snapshot: snapshoot.data!.docs
+                                                .elementAt(index)))),
+                            child: GridTile(
+                              child: Column(
+                                children: <Widget>[
+                                  SizedBox(
+                                    child: Image.network(
+                                      snapshoot.data!.docs
+                                          .elementAt(index)
+                                          .get("Url capa"),
+                                      loadingBuilder: (BuildContext contex,
+                                          Widget child,
+                                          ImageChunkEvent? loadingProgress) {
+                                        if (loadingProgress == null) {
+                                          return child;
+                                        }
+                                        return Center(
+                                          child: CircularProgressIndicator(
+                                            value: loadingProgress
+                                                        .expectedTotalBytes !=
+                                                    null
+                                                ? loadingProgress
+                                                        .cumulativeBytesLoaded /
+                                                    loadingProgress
+                                                        .expectedTotalBytes!
+                                                : null,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 2,
+                                  ),
+                                  Text(
+                                    snapshoot.data!.docs
+                                        .elementAt(index)
+                                        .get("Nome"),
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 16),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),

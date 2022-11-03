@@ -15,6 +15,7 @@ class _ObjetivoAplicativoScreenState extends State<ObjetivoAplicativoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaquery = MediaQuery.of(context);
     //Retorna a tela do programa em si.
     return GestureDetector(
       onTap: () {
@@ -48,18 +49,20 @@ class _ObjetivoAplicativoScreenState extends State<ObjetivoAplicativoScreen> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 // Padding que para criar bordas para o texto não encostar na tela
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 16.0),
+                  padding: EdgeInsets.symmetric(
+                    vertical: mediaquery.size.height * 0.011,
+                    horizontal: mediaquery.size.width * 0.042,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
+                    children: <Widget>[
                       // Textos na tela
-                      SizedBox(height: 8),
-                      Text(
+                      SizedBox(height: mediaquery.size.height * 0.011),
+                      const Text(
                         'Esse aplicativo tem o objetivo de ser um notificador e marcador para seus animes/mangas, de forma que você possa sempre se lembrar qual o ultimo capítulo/episódio o qual você viu e tambem ficar em dia com eles graças as notificações de lançamento criadas pelo aplicativo.',
                         style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
-                      SizedBox(height: 28),
+                      SizedBox(height: mediaquery.size.height * 0.05),
                     ],
                   ),
                 ),

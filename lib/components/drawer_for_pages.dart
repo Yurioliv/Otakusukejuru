@@ -11,30 +11,32 @@ class DrawerForPages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediaquery = MediaQuery.of(context);
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.6,
+      width: mediaquery.size.width * 0.6,
       child: Container(
         color: const Color(0xff23272A),
         child: Column(
           children: <Widget>[
-            const SizedBox(
-              height: 50,
+            SizedBox(
+              height: mediaquery.size.width * 0.12,
             ),
             // Mostra imagem de usuario
             const ImageUser(),
-            const SizedBox(
-              height: 30,
+            SizedBox(
+              height: mediaquery.size.width * 0.08,
             ),
             // Mostra o nome do usuario/nickname
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+              padding: EdgeInsets.symmetric(
+                  horizontal: mediaquery.size.width * 0.08),
               child: Text(
                 AuthService().userName!,
                 style: const TextStyle(color: Colors.white, fontSize: 20),
               ),
             ),
-            const SizedBox(
-              height: 30,
+            SizedBox(
+              height: mediaquery.size.width * 0.08,
             ),
             // Cria a linha divisora entre as opções
             const Divider(

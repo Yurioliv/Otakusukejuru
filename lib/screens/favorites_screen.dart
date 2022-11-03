@@ -16,6 +16,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaquery = MediaQuery.of(context);
     //Retorna a tela do programa em si.
     return GestureDetector(
       onTap: () {
@@ -40,15 +41,15 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               onTap: () {},
               child: const Icon(Icons.search),
             ),
-            const SizedBox(
-              width: 15,
+            SizedBox(
+              width: mediaquery.size.width * 0.04,
             ),
             GestureDetector(
               onTap: () {},
               child: const Icon(Icons.label),
             ),
-            const SizedBox(
-              width: 10,
+            SizedBox(
+              width: mediaquery.size.width * 0.04,
             ),
           ],
         ),
@@ -56,14 +57,14 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         bottomNavigationBar: BottomAppBar(
           color: const Color(0xff23272A),
           child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.060,
-            width: MediaQuery.of(context).size.width,
+            height: mediaquery.size.height * 0.07,
+            width: mediaquery.size.width,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Botão animes
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.49,
+                  width: mediaquery.size.width * 0.49,
                   child: GestureDetector(
                     onTap: () => setState(() {
                       tipoPagina = "Animes";
@@ -72,7 +73,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.49,
+                          width: mediaquery.size.width * 0.49,
                           child: const Text(
                             "Animes",
                             textAlign: TextAlign.center,
@@ -89,11 +90,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 // Divisores de espaço entre botões
                 VerticalDivider(
                   color: const Color(0xff2C2F33),
-                  width: MediaQuery.of(context).size.width * 0.02,
+                  width: mediaquery.size.width * 0.02,
                 ),
                 // Botão mangas
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.49,
+                  width: mediaquery.size.width * 0.49,
                   child: GestureDetector(
                     onTap: () => setState(() {
                       tipoPagina = "Mangas";
@@ -102,7 +103,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.49,
+                          width: mediaquery.size.width * 0.49,
                           child: const Text(
                             "Mangas",
                             textAlign: TextAlign.center,

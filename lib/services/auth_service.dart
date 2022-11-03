@@ -195,7 +195,8 @@ class AuthService {
           .doc(_auth.currentUser?.uid)
           .set({
         "Email": _auth.currentUser?.email,
-        "Favoritos": [""],
+        "Animes favoritos": [],
+        "Mangas favoritos": [],
       });
     }
   }
@@ -236,7 +237,8 @@ class AuthService {
           .doc(_auth.currentUser?.uid)
           .set({
         "Email": _auth.currentUser?.email,
-        "Favoritos": [""],
+        "Animes favoritos": [],
+        "Mangas favoritos": [],
       });
     }
   }

@@ -16,6 +16,7 @@ class _LinksDireitosAutoriasScreenState
 
   @override
   Widget build(BuildContext context) {
+    final mediaquery = MediaQuery.of(context);
     //Retorna a tela do programa em si.
     return GestureDetector(
       onTap: () {
@@ -49,18 +50,20 @@ class _LinksDireitosAutoriasScreenState
                 physics: const AlwaysScrollableScrollPhysics(),
                 // Padding que para criar bordas para o texto não encostar na tela
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 16.0),
+                  padding: EdgeInsets.symmetric(
+                    vertical: mediaquery.size.height * 0.011,
+                    horizontal: mediaquery.size.width * 0.042,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
+                    children: <Widget>[
                       // Textos na tela
-                      SizedBox(height: 8),
-                      Text(
+                      SizedBox(height: mediaquery.size.height * 0.011),
+                      const Text(
                         'Esse aplicativo respeita as leis de direitos autorais brasileiras como visto na Lei nº 9.610/98, todos os direitos autorais são atribuidos aos devidos criadores e divulgadores do conteudo. Todo e qualquer link para fora do aplicativo leva a partes publicas de sites privados os quais possuem os devidos direitos autorais sobre o conteúdo, o que os permite divulga-los, este aplicativo não distribui o devido conteudo, apenas notifica os usuarios do aplicativo sobre o lançamento de novos capítulos e episódios, alem de oferecer um sistema para que eles marquem os ultimos capítulos e episódios vistos.',
                         style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
-                      SizedBox(height: 28),
+                      SizedBox(height: mediaquery.size.height * 0.05),
                     ],
                   ),
                 ),

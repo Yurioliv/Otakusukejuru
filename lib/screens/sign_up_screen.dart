@@ -66,11 +66,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaquery = MediaQuery.of(context);
+    //Retorna a tela do programa em si.
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context);
-
-        return true;
+        return false;
       },
       child: GestureDetector(
         onTap: () {
@@ -85,8 +85,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 width: double.infinity,
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
-                  padding: const EdgeInsets.only(
-                    top: 100.0,
+                  padding: EdgeInsets.only(
+                    top: mediaquery.size.height * 0.13,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -103,15 +103,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 40.0),
+                      SizedBox(height: mediaquery.size.height * 0.04),
                       //Linha divisora.
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 60.0),
-                        child: Divider(
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: mediaquery.size.width * 0.15),
+                        child: const Divider(
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 40.0),
+                      SizedBox(height: mediaquery.size.height * 0.04),
                       //Texto "insira as informações a baixo" entre o divisor e os textfields na tela.
                       const Text(
                         'Insira as informações a baixo',
@@ -122,22 +123,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 30.0),
+                      SizedBox(height: mediaquery.size.height * 0.04),
                       //TextFields para que o usuario digite os dados a serem cadastrados.
                       EmailTextField(
                           texto: "Email", controlador: _emailController),
-                      const SizedBox(height: 10.0),
+                      SizedBox(height: mediaquery.size.height * 0.011),
                       UserTextField(
                           texto: "Nome de Usuário",
                           controlador: _userController),
-                      const SizedBox(height: 10.0),
+                      SizedBox(height: mediaquery.size.height * 0.011),
                       PasswordTextField(
                           texto: "Senha", controlador: _passwordController),
-                      const SizedBox(height: 10.0),
+                      SizedBox(height: mediaquery.size.height * 0.011),
                       PasswordTextField(
                           texto: "Confirmar Senha",
                           controlador: _cPasswordController),
-                      const SizedBox(height: 60.0),
+                      SizedBox(height: mediaquery.size.height * 0.08),
                       //Botão para fazer o cadastro com os dados.
                       TextButton(
                         onPressed: () {
@@ -267,7 +268,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         },
                         style: TextButton.styleFrom(
                           backgroundColor: Colors.white,
-                          minimumSize: const Size(150, 50),
+                          minimumSize: Size(
+                            mediaquery.size.width * 0.4,
+                            mediaquery.size.height * 0.065,
+                          ),
                         ),
                         child: const Text(
                           'Cadastrar',
@@ -279,14 +283,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                       ),
-                      //SizedBox para dar espaço para o scrollview no caso de o dispositivos ser pequeno verticalmente.
-                      const SizedBox(height: 30.0),
+                      // Espaço entre botõese
+                      SizedBox(height: mediaquery.size.height * 0.04),
                       //Botão para voltar a tela anterior.
                       TextButton(
                         onPressed: () => Navigator.pop(context),
                         style: TextButton.styleFrom(
-                          minimumSize: const Size(110, 50),
-                          maximumSize: const Size(110, 50),
+                          minimumSize: Size(
+                            mediaquery.size.width * 0.35,
+                            mediaquery.size.height * 0.065,
+                          ),
+                          maximumSize: Size(
+                            mediaquery.size.width * 0.35,
+                            mediaquery.size.height * 0.065,
+                          ),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -309,7 +319,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                       //SizedBox para dar espaço para o scrollview no caso de o dispositivos ser pequeno verticalmente.
-                      const SizedBox(height: 20.0),
+                      SizedBox(height: mediaquery.size.height * 0.01),
                     ],
                   ),
                 ),

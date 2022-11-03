@@ -14,6 +14,7 @@ class _CoresEstadoScreenState extends State<CoresEstadoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaquery = MediaQuery.of(context);
     //Retorna a tela do programa em si.
     return GestureDetector(
       onTap: () {
@@ -47,18 +48,20 @@ class _CoresEstadoScreenState extends State<CoresEstadoScreen> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 // Padding que para criar bordas para o texto não encostar na tela
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 16.0),
+                  padding: EdgeInsets.symmetric(
+                    vertical: mediaquery.size.height * 0.011,
+                    horizontal: mediaquery.size.width * 0.042,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       // Textos na tela
-                      const SizedBox(height: 8),
+                      SizedBox(height: mediaquery.size.height * 0.011),
                       const Text(
                         'São usadas 3 cores para representar o estado do manga/anime:',
                         style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
-                      const SizedBox(height: 28),
+                      SizedBox(height: mediaquery.size.height * 0.037),
                       // RichText com texto em vermelho
                       RichText(
                         text: const TextSpan(
@@ -74,7 +77,7 @@ class _CoresEstadoScreenState extends State<CoresEstadoScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 28),
+                      SizedBox(height: mediaquery.size.height * 0.037),
                       // RichText com texto em azul
                       RichText(
                         text: const TextSpan(
@@ -90,7 +93,7 @@ class _CoresEstadoScreenState extends State<CoresEstadoScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 28),
+                      SizedBox(height: mediaquery.size.height * 0.037),
                       // RichText com texto em cinza
                       RichText(
                         text: const TextSpan(

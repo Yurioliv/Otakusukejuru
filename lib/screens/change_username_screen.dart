@@ -35,6 +35,8 @@ class ChangeUserNameScreenState extends State<ChangeUserNameScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaquery = MediaQuery.of(context);
+    //Retorna a tela do programa em si.
     return WillPopScope(
       onWillPop: () async {
         Navigator.pop(context);
@@ -49,8 +51,8 @@ class ChangeUserNameScreenState extends State<ChangeUserNameScreen> {
               width: double.infinity,
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.only(
-                  top: 100.0,
+                padding: EdgeInsets.only(
+                  top: mediaquery.size.height * 0.13,
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -67,11 +69,12 @@ class ChangeUserNameScreenState extends State<ChangeUserNameScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 40.0),
+                    SizedBox(height: mediaquery.size.height * 0.05),
                     //Texto de explicação para mudar usuario
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40.0),
-                      child: Text(
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: mediaquery.size.width * 0.1),
+                      child: const Text(
                           'Por favor informe o seu novo nome de usuário abaixo.',
                           style: TextStyle(
                             color: Colors.white,
@@ -81,12 +84,12 @@ class ChangeUserNameScreenState extends State<ChangeUserNameScreen> {
                           ),
                           textAlign: TextAlign.justify),
                     ),
-                    const SizedBox(height: 80.0),
+                    SizedBox(height: mediaquery.size.height * 0.1),
                     //TextFields para que o usuario digite os dados a serem cadastrados.
                     UserTextField(
                         texto: "Nome de usuário",
                         controlador: _userNameController),
-                    const SizedBox(height: 60.0),
+                    SizedBox(height: mediaquery.size.height * 0.08),
                     //Botão para enviar pedido de recuperação de senha para o banco de dados.
                     TextButton(
                       onPressed: () {
@@ -133,7 +136,10 @@ class ChangeUserNameScreenState extends State<ChangeUserNameScreen> {
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.white,
-                        minimumSize: const Size(200, 50),
+                        minimumSize: Size(
+                          mediaquery.size.width * 0.6,
+                          mediaquery.size.height * 0.065,
+                        ),
                       ),
                       child: const Text(
                         'Mudar nome de usuário',
@@ -145,13 +151,19 @@ class ChangeUserNameScreenState extends State<ChangeUserNameScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 180.0),
+                    SizedBox(height: mediaquery.size.height * 0.24),
                     //Botão para voltar a tela anterior.
                     TextButton(
                       onPressed: () => Navigator.pop(context),
                       style: TextButton.styleFrom(
-                        minimumSize: const Size(110, 50),
-                        maximumSize: const Size(110, 50),
+                        minimumSize: Size(
+                          mediaquery.size.width * 0.35,
+                          mediaquery.size.height * 0.065,
+                        ),
+                        maximumSize: Size(
+                          mediaquery.size.width * 0.35,
+                          mediaquery.size.height * 0.065,
+                        ),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -174,7 +186,7 @@ class ChangeUserNameScreenState extends State<ChangeUserNameScreen> {
                       ),
                     ),
                     //SizedBox para dar espaço para o scrollview no caso de o dispositivos ser pequeno verticalmente.
-                    const SizedBox(height: 40.0),
+                    SizedBox(height: mediaquery.size.height * 0.01),
                   ],
                 ),
               ),

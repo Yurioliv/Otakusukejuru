@@ -6,15 +6,17 @@ class ImageUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediaquery = MediaQuery.of(context);
     if (AuthService().userImage == null) {
-      return const CircleAvatar(
-        backgroundImage: AssetImage('assets/images/Generic_user_image.png'),
-        radius: 50,
+      return CircleAvatar(
+        backgroundImage:
+            const AssetImage('assets/images/Generic_user_image.png'),
+        radius: mediaquery.size.width * 0.14,
       );
     } else {
       return CircleAvatar(
         backgroundImage: NetworkImage(AuthService().userImage),
-        radius: 50,
+        radius: mediaquery.size.width * 0.14,
       );
     }
   }

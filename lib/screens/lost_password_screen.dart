@@ -36,6 +36,7 @@ class _LostPasswordScreenState extends State<LostPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaquery = MediaQuery.of(context);
     return WillPopScope(
       onWillPop: () async {
         Navigator.pop(context);
@@ -50,8 +51,8 @@ class _LostPasswordScreenState extends State<LostPasswordScreen> {
               width: double.infinity,
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.only(
-                  top: 100.0,
+                padding: EdgeInsets.only(
+                  top: mediaquery.size.height * 0.13,
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -68,11 +69,12 @@ class _LostPasswordScreenState extends State<LostPasswordScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 40.0),
+                    SizedBox(height: mediaquery.size.height * 0.05),
                     //Texto de explicação para recuperar senha
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40.0),
-                      child: Text(
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: mediaquery.size.width * 0.1),
+                      child: const Text(
                           'Por favor informe o email registrado a sua conta abaixo. Você recebera uma mensagem por email informando como fazer a troca para uma nova senha.',
                           style: TextStyle(
                             color: Colors.white,
@@ -82,11 +84,11 @@ class _LostPasswordScreenState extends State<LostPasswordScreen> {
                           ),
                           textAlign: TextAlign.justify),
                     ),
-                    const SizedBox(height: 80.0),
+                    SizedBox(height: mediaquery.size.height * 0.1),
                     //TextFields para que o usuario digite os dados a serem cadastrados.
                     EmailTextField(
                         texto: "Email", controlador: _emailController),
-                    const SizedBox(height: 60.0),
+                    SizedBox(height: mediaquery.size.height * 0.08),
                     //Botão para enviar pedido de recuperação de senha para o banco de dados.
                     TextButton(
                       onPressed: () {
@@ -149,7 +151,10 @@ class _LostPasswordScreenState extends State<LostPasswordScreen> {
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.white,
-                        minimumSize: const Size(200, 50),
+                        minimumSize: Size(
+                          mediaquery.size.width * 0.55,
+                          mediaquery.size.height * 0.065,
+                        ),
                       ),
                       child: const Text(
                         'Recuperar senha',
@@ -161,13 +166,19 @@ class _LostPasswordScreenState extends State<LostPasswordScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 180.0),
+                    SizedBox(height: mediaquery.size.height * 0.15),
                     //Botão para voltar a tela anterior.
                     TextButton(
                       onPressed: () => Navigator.pop(context),
                       style: TextButton.styleFrom(
-                        minimumSize: const Size(110, 50),
-                        maximumSize: const Size(110, 50),
+                        minimumSize: Size(
+                          mediaquery.size.width * 0.35,
+                          mediaquery.size.height * 0.065,
+                        ),
+                        maximumSize: Size(
+                          mediaquery.size.width * 0.35,
+                          mediaquery.size.height * 0.065,
+                        ),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -190,7 +201,7 @@ class _LostPasswordScreenState extends State<LostPasswordScreen> {
                       ),
                     ),
                     //SizedBox para dar espaço para o scrollview no caso de o dispositivos ser pequeno verticalmente.
-                    const SizedBox(height: 40.0),
+                    SizedBox(height: mediaquery.size.height * 0.01),
                   ],
                 ),
               ),

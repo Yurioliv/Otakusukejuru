@@ -10,13 +10,16 @@ class EmailTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediaquery = MediaQuery.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50.0),
+      padding: EdgeInsets.symmetric(horizontal: mediaquery.size.width * 0.13),
       child: TextFormField(
         controller: controlador,
         style: const TextStyle(color: Color(0xFF2C2F33)),
         decoration: InputDecoration(
-          border: InputBorder.none,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
           filled: true,
           fillColor: Colors.white,
           hintText: texto,
@@ -39,13 +42,16 @@ class UserTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediaquery = MediaQuery.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50.0),
+      padding: EdgeInsets.symmetric(horizontal: mediaquery.size.width * 0.13),
       child: TextFormField(
         controller: controlador,
         style: const TextStyle(color: Color(0xFF2C2F33)),
         decoration: InputDecoration(
-          border: InputBorder.none,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
           filled: true,
           fillColor: Colors.white,
           hintText: texto,
@@ -68,8 +74,9 @@ class PasswordTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediaquery = MediaQuery.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50.0),
+      padding: EdgeInsets.symmetric(horizontal: mediaquery.size.width * 0.13),
       child: TextFormField(
         obscureText: true,
         enableSuggestions: false,
@@ -77,7 +84,9 @@ class PasswordTextField extends StatelessWidget {
         controller: controlador,
         style: const TextStyle(color: Color(0xFF2C2F33)),
         decoration: InputDecoration(
-          border: InputBorder.none,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
           filled: true,
           fillColor: Colors.white,
           hintText: texto,

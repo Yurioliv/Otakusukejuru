@@ -50,6 +50,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaquery = MediaQuery.of(context);
     //Retorna a tela do programa em si.
     return GestureDetector(
       onTap: () {
@@ -64,8 +65,8 @@ class _SignInScreenState extends State<SignInScreen> {
               width: double.infinity,
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.only(
-                  top: 100.0,
+                padding: EdgeInsets.only(
+                  top: mediaquery.size.height * 0.13,
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -82,7 +83,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 60.0),
+                    SizedBox(height: mediaquery.size.height * 0.05),
                     //Botão para logar com o google
                     TextButton(
                       onPressed: () {
@@ -91,7 +92,10 @@ class _SignInScreenState extends State<SignInScreen> {
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.white,
-                        minimumSize: const Size(250, 50),
+                        minimumSize: Size(
+                          mediaquery.size.width * 0.6,
+                          mediaquery.size.height * 0.065,
+                        ),
                       ),
                       child: const Text(
                         'Logar com google',
@@ -103,40 +107,48 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 80.0),
+                    SizedBox(height: mediaquery.size.height * 0.05),
                     //Nome 'Usuário' pequeno em cima do campo de texto.
                     Row(
-                      children: const [
+                      children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 50.0),
-                          child: Text(
+                          padding: EdgeInsets.only(
+                              left: mediaquery.size.width * 0.13),
+                          child: const Text(
                             'Email:',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 5.0),
+                    SizedBox(height: mediaquery.size.height * 0.005),
                     //Campo de texto que deve receber o nome de usuario e verificar se ele condiz com algum nome no banco de dados para permitir o login do usuario.
                     EmailTextField(
                         texto: "Email", controlador: _emailController),
-                    //Botão que leva a tela para recuperar o nome de usuario por email
-                    const SizedBox(
-                      height: 40,
+                    // Espaço entre textfields
+                    SizedBox(
+                      height: mediaquery.size.height * 0.04,
                     ),
                     //Nome 'Senha' pequeno em cima do campo de texto.
                     Row(
-                      children: const [
+                      children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 50.0),
-                          child: Text(
+                          padding: EdgeInsets.only(
+                              left: mediaquery.size.width * 0.13),
+                          child: const Text(
                             'Senha:',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 5.0),
+                    SizedBox(height: mediaquery.size.height * 0.005),
                     //Campo de texto que deve receber a senha e verificar se ele condiz com a senhha para o usuário no banco de dados para permitir o login do usuario.
                     PasswordTextField(
                         texto: "Senha", controlador: _passwordController),
@@ -145,7 +157,8 @@ class _SignInScreenState extends State<SignInScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Container(
-                          padding: const EdgeInsets.only(right: 40.0),
+                          padding: EdgeInsets.only(
+                              right: mediaquery.size.width * 0.115),
                           child: TextButton(
                             onPressed: () {
                               FocusScope.of(context).requestFocus(FocusNode());
@@ -163,7 +176,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 30.0),
+                    SizedBox(height: mediaquery.size.height * 0.05),
                     //Botão para fazer login, ele deve comparar os dados com o banco de dados, se forem correspondentes deve autenticar o usuario.
                     TextButton(
                       onPressed: () {
@@ -237,7 +250,10 @@ class _SignInScreenState extends State<SignInScreen> {
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.white,
-                        minimumSize: const Size(120, 50),
+                        minimumSize: Size(
+                          mediaquery.size.width * 0.30,
+                          mediaquery.size.height * 0.07,
+                        ),
                       ),
                       child: const Text(
                         'Entrar',
@@ -249,7 +265,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 40.0),
+                    SizedBox(height: mediaquery.size.height * 0.05),
                     //Texto no final da tela, "Ainda não tem conta?"
                     const Text(
                       'Ainda não tem conta?',
@@ -260,7 +276,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 10.0),
+                    SizedBox(height: mediaquery.size.height * 0.005),
                     //Botão para para enviar para tela de cadastro.
                     TextButton(
                       onPressed: () {
@@ -272,7 +288,10 @@ class _SignInScreenState extends State<SignInScreen> {
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.white,
-                        minimumSize: const Size(150, 50),
+                        minimumSize: Size(
+                          mediaquery.size.width * 0.38,
+                          mediaquery.size.height * 0.07,
+                        ),
                       ),
                       child: const Text(
                         'Criar Conta',
@@ -285,7 +304,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     ),
                     //SizedBox para dar espaço para o scrollview no caso de o dispositivos ser pequeno verticalmente.
-                    const SizedBox(height: 40.0),
+                    SizedBox(height: mediaquery.size.height * 0.01),
                   ],
                 ),
               ),

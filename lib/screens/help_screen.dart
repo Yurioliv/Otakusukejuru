@@ -17,6 +17,7 @@ class _HelpScreenState extends State<HelpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaquery = MediaQuery.of(context);
     //Retorna a tela do programa em si.
     return GestureDetector(
       onTap: () {
@@ -50,12 +51,11 @@ class _HelpScreenState extends State<HelpScreen> {
               width: double.infinity,
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                // TODO criar lista de animes em um grid abaixo
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     // ListTile para mudar tema
-                    const SizedBox(height: 8),
+                    SizedBox(height: mediaquery.size.height * 0.011),
                     ListTile(
                       title: const Text(
                         'Cores e estado das obras',

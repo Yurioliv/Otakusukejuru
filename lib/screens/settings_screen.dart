@@ -17,6 +17,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaquery = MediaQuery.of(context);
     //Retorna a tela do programa em si.
     return GestureDetector(
       onTap: () {
@@ -47,7 +48,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     // ListTile para mudar tema
-                    const SizedBox(height: 8),
+                    SizedBox(height: mediaquery.size.height * 0.011),
                     ListTile(
                       title: const Text(
                         'Mudar tema',
