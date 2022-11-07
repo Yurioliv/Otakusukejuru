@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:otakusukejuru/components/color_of_marcation.dart';
 import 'package:otakusukejuru/components/drawer_for_pages.dart';
 import 'package:otakusukejuru/screens/anime_screen.dart';
 import 'package:otakusukejuru/screens/manga_screen.dart';
@@ -142,12 +143,19 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
                 return GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
-                    childAspectRatio: 0.62,
+                    childAspectRatio: 0.55,
                   ),
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemCount: snapshoot.data?.docs.length,
                   itemBuilder: (context, index) {
+                    var obraEpisodioOuCapitulo;
+
+                    if (tipoPagina == "Animes") {
+                      obraEpisodioOuCapitulo = "Episodio";
+                    } else {
+                      obraEpisodioOuCapitulo = "Capitulo";
+                    }
                     return Column(
                       children: [
                         Padding(
@@ -207,6 +215,29 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
                                     style: const TextStyle(
                                         color: Colors.white, fontSize: 16),
                                   ),
+                                  // Mostra o numero do ultimo episodio/capitulo e cor de acordo com a data
+
+                                  Container(
+                                    color: colorForMarcation(snapshoot
+                                        .data!.docs
+                                        .elementAt(index)
+                                        .get(
+                                            "Data Ultimo $obraEpisodioOuCapitulo")),
+                                    height: mediaquery.size.height * 0.03,
+                                    width: mediaquery.size.width * 0.3,
+                                    child: Center(
+                                      child: Text(
+                                        snapshoot.data!.docs
+                                            .elementAt(index)
+                                            .get(
+                                                "Ultimo $obraEpisodioOuCapitulo")
+                                            .toString(),
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  )
                                 ],
                               ),
                             ),
