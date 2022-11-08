@@ -30,8 +30,8 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
         // Appbar do scaffold
         appBar: AppBar(
           backgroundColor: const Color(0xff23272A),
-          title: const Text(
-            pageName,
+          title: Text(
+            "$pageName $tipoPagina",
             style: TextStyle(fontSize: 24.0),
           ),
           iconTheme: const IconThemeData(
@@ -143,7 +143,7 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
                 return GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
-                    childAspectRatio: 0.55,
+                    childAspectRatio: 0.54,
                   ),
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
@@ -180,10 +180,13 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
                               child: Column(
                                 children: <Widget>[
                                   SizedBox(
+                                    height: mediaquery.size.height * 0.21,
+                                    width: mediaquery.size.width * 0.3,
                                     child: Image.network(
                                       snapshoot.data!.docs
                                           .elementAt(index)
                                           .get("Url capa"),
+                                      fit: BoxFit.fill,
                                       loadingBuilder: (BuildContext contex,
                                           Widget child,
                                           ImageChunkEvent? loadingProgress) {
@@ -213,16 +216,25 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
                                         .elementAt(index)
                                         .get("Nome"),
                                     style: const TextStyle(
-                                        color: Colors.white, fontSize: 16),
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.center,
                                   ),
                                   // Mostra o numero do ultimo episodio/capitulo e cor de acordo com a data
-
                                   Container(
-                                    color: colorForMarcation(snapshoot
-                                        .data!.docs
-                                        .elementAt(index)
-                                        .get(
-                                            "Data Ultimo $obraEpisodioOuCapitulo")),
+                                    decoration: BoxDecoration(
+                                      color: colorForMarcation(snapshoot
+                                          .data!.docs
+                                          .elementAt(index)
+                                          .get(
+                                              "Data Ultimo $obraEpisodioOuCapitulo")),
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
+                                    ),
                                     height: mediaquery.size.height * 0.03,
                                     width: mediaquery.size.width * 0.3,
                                     child: Center(

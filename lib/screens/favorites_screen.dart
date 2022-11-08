@@ -31,9 +31,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         // Appbar do scaffold
         appBar: AppBar(
           backgroundColor: const Color(0xff23272A),
-          title: const Text(
-            pageName,
-            style: TextStyle(fontSize: 24.0),
+          title: Text(
+            "$tipoPagina $pageName",
+            style: const TextStyle(fontSize: 24.0),
           ),
           iconTheme: const IconThemeData(
             size: 32,
@@ -195,7 +195,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
-                              childAspectRatio: 0.5,
+                              childAspectRatio: 0.49,
                             ),
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
@@ -236,12 +236,15 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                         child: Column(
                                           children: <Widget>[
                                             SizedBox(
+                                              height:
+                                                  mediaquery.size.height * 0.21,
+                                              width:
+                                                  mediaquery.size.width * 0.3,
                                               child: Image.network(
-                                                // TODO fazer retornar a imagem comparando com o id que tem no favoritos do usuario
-
                                                 snapshoot2.data!.docs
                                                     .elementAt(indexObra[index])
                                                     .get("Url capa"),
+                                                fit: BoxFit.fill,
                                                 loadingBuilder:
                                                     (BuildContext contex,
                                                         Widget child,
@@ -274,8 +277,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                                   .elementAt(indexObra[index])
                                                   .get("Nome"),
                                               style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16),
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                              ),
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.center,
                                             ),
                                             // Mostra o episodio/capitulo atual do usuario
                                             PopupMenuButton(
@@ -375,11 +382,17 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                                 height: mediaquery.size.height *
                                                     0.005),
                                             Container(
-                                              color: colorForMarcation(snapshoot2
-                                                  .data!.docs
-                                                  .elementAt(indexObra[index])
-                                                  .get(
-                                                      "Data Ultimo $obraEpisodioOuCapitulo")),
+                                              decoration: BoxDecoration(
+                                                color: colorForMarcation(snapshoot2
+                                                    .data!.docs
+                                                    .elementAt(indexObra[index])
+                                                    .get(
+                                                        "Data Ultimo $obraEpisodioOuCapitulo")),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                  Radius.circular(10),
+                                                ),
+                                              ),
                                               height:
                                                   mediaquery.size.height * 0.03,
                                               width:
