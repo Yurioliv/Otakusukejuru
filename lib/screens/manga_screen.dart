@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:otakusukejuru/components/color_of_marcation.dart';
 
 class MangaScreen extends StatefulWidget {
   const MangaScreen({super.key, required this.snapshot});
@@ -13,8 +14,21 @@ class _MangaScreenState extends State<MangaScreen> {
   // Nome que sera apresentado na APPBAR
   static const String pageName = 'Pagina de manga';
   final QueryDocumentSnapshot<Object?> snapshot;
+  String generos = "";
 
+  // Construtor da classe
   _MangaScreenState(this.snapshot);
+
+  @override
+  void initState() {
+    super.initState();
+    for (int i = 0; i < snapshot.get("Generos").length; i++) {
+      generos = "$generos ${snapshot.get("Generos")[i]}";
+      if (snapshot.get("Generos").length - 1 > i) {
+        generos = "$generos            ";
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -175,37 +189,43 @@ class _MangaScreenState extends State<MangaScreen> {
                         style:
                             TextStyle(color: Color(0xFF7289DA), fontSize: 16),
                       ),
-                      // TODO puxar fonte do snapshot
+                      // Autores
                       SizedBox(
                         width: mediaquery.size.width * 0.36,
-                        child: Text(
-                          'Asd',
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            for (int i = 0;
+                                i < snapshot.get("Autores").length && i < 4;
+                                i++) ...[
+                              Text(
+                                snapshot.get("Autores")[i],
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                                textAlign: TextAlign.start,
+                              ),
+                            ],
+                          ],
                         ),
                       ),
                       // Espaço entre topicos
-                      SizedBox(
-                        height: mediaquery.size.width * 0.05,
-                      ),
+                      SizedBox(height: mediaquery.size.width * 0.04),
                       const Text(
                         'Serialização',
                         style:
                             TextStyle(color: Color(0xFF7289DA), fontSize: 16),
                       ),
-                      // TODO puxar Temporada do snapshot
+                      // Serialização
                       SizedBox(
                         width: mediaquery.size.width * 0.36,
                         child: Text(
-                          'Asd',
+                          snapshot.get("Serializacao"),
                           style: const TextStyle(
                               color: Colors.white, fontSize: 16),
                         ),
                       ),
                       // Espaço entre topicos
-                      SizedBox(
-                        height: mediaquery.size.width * 0.05,
-                      ),
+                      SizedBox(height: mediaquery.size.width * 0.04),
                       const Text(
                         'Publicado em',
                         style:
@@ -215,7 +235,7 @@ class _MangaScreenState extends State<MangaScreen> {
                       SizedBox(
                         width: mediaquery.size.width * 0.36,
                         child: Text(
-                          'asdasdasdasdasdasdasdasda',
+                          "${snapshot.get("Inicio de publicacao")} ate ${snapshot.get("Fim de publicacao")}",
                           style: const TextStyle(
                               color: Colors.white, fontSize: 16),
                         ),
@@ -230,6 +250,117 @@ class _MangaScreenState extends State<MangaScreen> {
               snapshot.get("Nome"),
               style: const TextStyle(color: Colors.white, fontSize: 28),
             ),
+            // Espaço entre topicos
+            SizedBox(height: mediaquery.size.width * 0.05),
+            // Generos
+            Center(
+              child: Text(
+                generos,
+                style: const TextStyle(color: Color(0xFF7289DA), fontSize: 16),
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            // Espaço entre topicos
+            SizedBox(height: mediaquery.size.width * 0.05),
+            // Ep atual com caixa com padrão de cores
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color:
+                        colorForMarcation(snapshot.get("Data Ultimo Capitulo")),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                  ),
+                  height: mediaquery.size.height * 0.045,
+                  width: mediaquery.size.width * 0.4,
+                  child: Center(
+                    child: Text(
+                      snapshot.get("Ultimo Capitulo").toString(),
+                      style: const TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            // Espaço entre topicos
+            SizedBox(height: mediaquery.size.width * 0.05),
+            // Sinopse
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text(
+                  "Sinopse",
+                  style: TextStyle(color: Colors.white, fontSize: 26),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: mediaquery.size.height * 0.18,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: mediaquery.size.width * 0.06),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      snapshot.get("Sinopse").toString(),
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                      textAlign: TextAlign.start,
+                      maxLines: 7,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            // Espaço entre topicos
+            SizedBox(height: mediaquery.size.width * 0.05),
+            // Botões para redirecionar a sites oficiais
+            // TODO falta adicionar nomes dos sites que seram redirecionados no botões, e função para redirecionar
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    child: SizedBox(
+                      width: mediaquery.size.width * 0.35,
+                      height: mediaquery.size.height * 0.05,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: mediaquery.size.width * 0.1,
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    child: SizedBox(
+                      width: mediaquery.size.width * 0.35,
+                      height: mediaquery.size.height * 0.05,
+                    ),
+                  ),
+                )
+              ],
+            )
           ],
         ),
       ),

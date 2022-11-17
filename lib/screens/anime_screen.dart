@@ -15,7 +15,8 @@ class _AnimeScreenState extends State<AnimeScreen> {
   static const String pageName = 'Pagina de anime';
   final QueryDocumentSnapshot<Object?> snapshot;
   String generos = "";
-  // Construtos da classe
+
+  // Construtor da classe
   _AnimeScreenState(this.snapshot);
 
   @override
@@ -200,7 +201,7 @@ class _AnimeScreenState extends State<AnimeScreen> {
                         ),
                       ),
                       // Espaço entre topicos
-                      SizedBox(height: mediaquery.size.width * 0.05),
+                      SizedBox(height: mediaquery.size.width * 0.04),
                       const Text(
                         'Temporada',
                         style:
@@ -216,7 +217,7 @@ class _AnimeScreenState extends State<AnimeScreen> {
                         ),
                       ),
                       // Espaço entre topicos
-                      SizedBox(height: mediaquery.size.width * 0.05),
+                      SizedBox(height: mediaquery.size.width * 0.04),
                       const Text(
                         'Studio',
                         style:
@@ -229,10 +230,12 @@ class _AnimeScreenState extends State<AnimeScreen> {
                           snapshot.get("Studio"),
                           style: const TextStyle(
                               color: Colors.white, fontSize: 16),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
                         ),
                       ),
                       // Espaço entre topicos
-                      SizedBox(height: mediaquery.size.width * 0.05),
+                      SizedBox(height: mediaquery.size.width * 0.04),
                       const Text(
                         'Exibido em',
                         style:
@@ -271,12 +274,14 @@ class _AnimeScreenState extends State<AnimeScreen> {
             // Espaço entre topicos
             SizedBox(height: mediaquery.size.width * 0.05),
             // Generos
-            Text(
-              generos,
-              style: const TextStyle(color: Color(0xFF7289DA), fontSize: 16),
-              maxLines: 2,
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
+            Center(
+              child: Text(
+                generos,
+                style: const TextStyle(color: Color(0xFF7289DA), fontSize: 16),
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
             // Espaço entre topicos
             SizedBox(height: mediaquery.size.width * 0.05),
@@ -316,20 +321,23 @@ class _AnimeScreenState extends State<AnimeScreen> {
                 ),
               ],
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: mediaquery.size.width * 0.06),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    snapshot.get("Sinopse").toString(),
-                    style: const TextStyle(color: Colors.white, fontSize: 16),
-                    textAlign: TextAlign.start,
-                    maxLines: 7,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+            SizedBox(
+              height: mediaquery.size.height * 0.18,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: mediaquery.size.width * 0.06),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      snapshot.get("Sinopse").toString(),
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                      textAlign: TextAlign.start,
+                      maxLines: 7,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
             ),
             // Espaço entre topicos
