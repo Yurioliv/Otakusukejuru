@@ -97,7 +97,7 @@ class _CoresEstadoScreenState extends State<CoresEstadoScreen> {
                       // RichText com texto em cinza
                       RichText(
                         text: const TextSpan(
-                          text: 'Cinza  :',
+                          text: 'Cinza:',
                           style:
                               TextStyle(color: Colors.blueGrey, fontSize: 20),
                           children: <TextSpan>[

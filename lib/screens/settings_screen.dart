@@ -49,17 +49,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   children: <Widget>[
                     // ListTile para mudar tema
                     SizedBox(height: mediaquery.size.height * 0.011),
-                    ListTile(
-                      title: const Text(
-                        'Mudar tema',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      onTap: () {},
-                    ),
+                    // ListTile(
+                    //   title: const Text(
+                    //     'Mudar tema',
+                    //     style: TextStyle(color: Colors.white, fontSize: 20),
+                    //   ),
+                    //   onTap: () {},
+                    // ),
                     // Cria a linha divisora entre as opções
-                    const Divider(
-                      color: Color(0xff454545),
-                    ),
+                    // const Divider(
+                    //   color: Color(0xff454545),
+                    // ),
                     // ListTile para mudar nome de usuario
                     ListTile(
                       title: const Text(

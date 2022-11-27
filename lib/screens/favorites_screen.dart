@@ -128,7 +128,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         // Drawer do scaffold
         drawer: const DrawerForPages(),
         // Body do scaffold
-        // TODO criar lista de animes em um grid abaixo
         body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance.collection("Users").snapshots(),
           builder:
@@ -209,7 +208,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                     padding: EdgeInsets.all(
                                         mediaquery.size.width * 0.022),
                                     child: GestureDetector(
-                                      // TODO precisa mudar pois a snapshoot agora é outra
                                       onTap: tipoPagina == "Animes"
                                           ? () => Navigator.push(
                                               context,
@@ -286,7 +284,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                             ),
                                             // Mostra o episodio/capitulo atual do usuario
                                             PopupMenuButton(
-                                              itemBuilder: (Context) => [
+                                              itemBuilder: (context) => [
                                                 for (int i = 1;
                                                     i <=
                                                         snapshoot2.data!.docs

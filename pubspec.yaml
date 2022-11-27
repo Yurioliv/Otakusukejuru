@@ -43,8 +43,9 @@ dependencies:
   google_sign_in: ^5.4.2
   cloud_firestore: ^3.5.0
 
-  provider: ^6.0.3
+
   email_validator: ^2.1.17
+  url_launcher: ^6.1.7
 
 
 dev_dependencies:

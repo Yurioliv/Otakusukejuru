@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:otakusukejuru/components/color_of_marcation.dart';
+import 'package:otakusukejuru/components/link_button.dart';
 
 class AnimeScreen extends StatefulWidget {
   const AnimeScreen({super.key, required this.snapshot});
@@ -51,7 +52,6 @@ class _AnimeScreenState extends State<AnimeScreen> {
             size: 32,
             color: Colors.white,
           ),
-          // TODO adicionar funções nos gestureDetectors abaixo
           actions: [
             GestureDetector(
                 onTap: () async {
@@ -106,7 +106,6 @@ class _AnimeScreenState extends State<AnimeScreen> {
                     });
                   }
                 },
-                // TODO fazer icone mudar se obra ja estiver favoritada
                 child: StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance
                         .collection("Users")
@@ -160,229 +159,197 @@ class _AnimeScreenState extends State<AnimeScreen> {
             SizedBox(width: mediaquery.size.width * 0.05),
           ],
         ),
-        // Body do scaffold TODO criar
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(mediaquery.size.width * 0.05),
-                  child: SizedBox(
-                    width: mediaquery.size.width * 0.45,
-                    height: mediaquery.size.height * 0.33,
-                    child: Image.network(
-                      snapshot.get("Url capa"),
+        // Body do scaffold
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(mediaquery.size.width * 0.05),
+                    child: SizedBox(
+                      width: mediaquery.size.width * 0.45,
+                      height: mediaquery.size.height * 0.33,
+                      child: Image.network(
+                        snapshot.get("Url capa"),
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: mediaquery.size.width * 0.05,
-                    right: mediaquery.size.width * 0.05,
-                    bottom: mediaquery.size.width * 0.05,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Fonte',
-                        style:
-                            TextStyle(color: Color(0xFF7289DA), fontSize: 16),
-                      ),
-                      // Fonte
-                      SizedBox(
-                        width: mediaquery.size.width * 0.36,
-                        child: Text(
-                          snapshot.get("Fonte"),
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 16),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: mediaquery.size.width * 0.05,
+                      right: mediaquery.size.width * 0.05,
+                      bottom: mediaquery.size.width * 0.05,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Fonte',
+                          style:
+                              TextStyle(color: Color(0xFF7289DA), fontSize: 16),
                         ),
-                      ),
-                      // Espaço entre topicos
-                      SizedBox(height: mediaquery.size.width * 0.04),
-                      const Text(
-                        'Temporada',
-                        style:
-                            TextStyle(color: Color(0xFF7289DA), fontSize: 16),
-                      ),
-                      // Temporada
-                      SizedBox(
-                        width: mediaquery.size.width * 0.36,
-                        child: Text(
-                          snapshot.get("Temporada"),
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 16),
+                        // Fonte
+                        SizedBox(
+                          width: mediaquery.size.width * 0.36,
+                          child: Text(
+                            snapshot.get("Fonte"),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 16),
+                          ),
                         ),
-                      ),
-                      // Espaço entre topicos
-                      SizedBox(height: mediaquery.size.width * 0.04),
-                      const Text(
-                        'Studio',
-                        style:
-                            TextStyle(color: Color(0xFF7289DA), fontSize: 16),
-                      ),
-                      // Studio
-                      SizedBox(
-                        width: mediaquery.size.width * 0.36,
-                        child: Text(
-                          snapshot.get("Studio"),
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 16),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
+                        // Espaço entre topicos
+                        SizedBox(height: mediaquery.size.width * 0.04),
+                        const Text(
+                          'Temporada',
+                          style:
+                              TextStyle(color: Color(0xFF7289DA), fontSize: 16),
                         ),
-                      ),
-                      // Espaço entre topicos
-                      SizedBox(height: mediaquery.size.width * 0.04),
-                      const Text(
-                        'Exibido em',
-                        style:
-                            TextStyle(color: Color(0xFF7289DA), fontSize: 16),
-                      ),
-                      // Data de exibição
-                      SizedBox(
-                        width: mediaquery.size.width * 0.36,
-                        child: Text(
-                          "${snapshot.get("Inicio de exibicao")} ate ${snapshot.get("Fim de exibicao")}",
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 16),
+                        // Temporada
+                        SizedBox(
+                          width: mediaquery.size.width * 0.36,
+                          child: Text(
+                            snapshot.get("Temporada"),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 16),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-            // Nome do anime
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: mediaquery.size.width * 0.06),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    snapshot.get("Nome"),
-                    style: const TextStyle(color: Colors.white, fontSize: 26),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                        // Espaço entre topicos
+                        SizedBox(height: mediaquery.size.width * 0.04),
+                        const Text(
+                          'Studio',
+                          style:
+                              TextStyle(color: Color(0xFF7289DA), fontSize: 16),
+                        ),
+                        // Studio
+                        SizedBox(
+                          width: mediaquery.size.width * 0.36,
+                          child: Text(
+                            snapshot.get("Studio"),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 16),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),
+                        ),
+                        // Espaço entre topicos
+                        SizedBox(height: mediaquery.size.width * 0.04),
+                        const Text(
+                          'Exibido em',
+                          style:
+                              TextStyle(color: Color(0xFF7289DA), fontSize: 16),
+                        ),
+                        // Data de exibição
+                        SizedBox(
+                          width: mediaquery.size.width * 0.36,
+                          child: Text(
+                            "${snapshot.get("Inicio de exibicao")} ate ${snapshot.get("Fim de exibicao")}",
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 16),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
-            ),
-            // Espaço entre topicos
-            SizedBox(height: mediaquery.size.width * 0.05),
-            // Generos
-            Center(
-              child: Text(
-                generos,
-                style: const TextStyle(color: Color(0xFF7289DA), fontSize: 16),
-                maxLines: 2,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            // Espaço entre topicos
-            SizedBox(height: mediaquery.size.width * 0.05),
-            // Ep atual com caixa com padrão de cores
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color:
-                        colorForMarcation(snapshot.get("Data Ultimo Episodio")),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                  ),
-                  height: mediaquery.size.height * 0.045,
-                  width: mediaquery.size.width * 0.4,
-                  child: Center(
-                    child: Text(
-                      snapshot.get("Ultimo Episodio").toString(),
-                      style: const TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            // Espaço entre topicos
-            SizedBox(height: mediaquery.size.width * 0.05),
-            // Sinopse
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  "Sinopse",
-                  style: TextStyle(color: Colors.white, fontSize: 26),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: mediaquery.size.height * 0.18,
-              child: Padding(
+              // Nome do anime
+              Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: mediaquery.size.width * 0.06),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      snapshot.get("Sinopse").toString(),
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
-                      textAlign: TextAlign.start,
-                      maxLines: 7,
+                      snapshot.get("Nome"),
+                      style: const TextStyle(color: Colors.white, fontSize: 26),
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
               ),
-            ),
-            // Espaço entre topicos
-            SizedBox(height: mediaquery.size.width * 0.05),
-            // Botões para redirecionar a sites oficiais
-            // TODO falta adicionar nomes dos sites que seram redirecionados no botões, e função para redirecionar
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(
+              // Espaço entre topicos
+              SizedBox(height: mediaquery.size.width * 0.05),
+              // Generos
+              Center(
+                child: Text(
+                  generos,
+                  style:
+                      const TextStyle(color: Color(0xFF7289DA), fontSize: 16),
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              // Espaço entre topicos
+              SizedBox(height: mediaquery.size.width * 0.05),
+              // Ep atual com caixa com padrão de cores
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: colorForMarcation(
+                          snapshot.get("Data Ultimo Episodio")),
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(10),
                       ),
                     ),
-                    child: SizedBox(
-                      width: mediaquery.size.width * 0.35,
-                      height: mediaquery.size.height * 0.05,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: mediaquery.size.width * 0.1,
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
+                    height: mediaquery.size.height * 0.045,
+                    width: mediaquery.size.width * 0.4,
+                    child: Center(
+                      child: Text(
+                        snapshot.get("Ultimo Episodio").toString(),
+                        style: const TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    child: SizedBox(
-                      width: mediaquery.size.width * 0.35,
-                      height: mediaquery.size.height * 0.05,
-                    ),
                   ),
-                )
-              ],
-            )
-          ],
+                ],
+              ),
+              // Espaço entre topicos
+              SizedBox(height: mediaquery.size.width * 0.05),
+              // Sinopse
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    "Sinopse",
+                    style: TextStyle(color: Colors.white, fontSize: 26),
+                  ),
+                ],
+              ),
+              SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: mediaquery.size.width * 0.06),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        snapshot.get("Sinopse"),
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 16),
+                        textAlign: TextAlign.start,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              // Espaço entre topicos
+              SizedBox(height: mediaquery.size.width * 0.05),
+              // Botões para redirecionar a sites oficiais
+              LinkButton(
+                numberOfLinks: snapshot.get("Numero de links"),
+                snapshot: snapshot,
+                animeOrManga: "Anime",
+              ),
+              SizedBox(height: mediaquery.size.width * 0.05),
+            ],
+          ),
         ),
       ),
     );

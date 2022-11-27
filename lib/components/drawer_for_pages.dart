@@ -112,8 +112,12 @@ class DrawerForPages extends StatelessWidget {
               onTap: () {
                 FocusScope.of(context).requestFocus(FocusNode());
                 AuthService().signOut();
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const MyApp()));
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MyApp(
+                              isInternetOn: true,
+                            )));
               },
             ),
             // Cria a linha divisora entre as opções

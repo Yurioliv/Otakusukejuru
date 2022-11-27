@@ -32,7 +32,7 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
           backgroundColor: const Color(0xff23272A),
           title: Text(
             "$pageName $tipoPagina",
-            style: TextStyle(fontSize: 24.0),
+            style: const TextStyle(fontSize: 24.0),
           ),
           iconTheme: const IconThemeData(
             size: 32,
