@@ -18,7 +18,7 @@ class SearchTextField extends StatelessWidget {
         ),
         filled: true,
         fillColor: const Color(0xFF2C2F33),
-        hintText: "Digite o nome da obra ou parte dele",
+        hintText: "Digite o nome da obra",
         hintStyle: const TextStyle(
           color: Colors.white,
         ),

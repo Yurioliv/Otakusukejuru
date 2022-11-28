@@ -43,7 +43,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               width: double.infinity,
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                // TODO Verificar se realmente farei a configuração de mudança de tema
+                // Verificar se realmente farei a configuração de mudança de tema
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[

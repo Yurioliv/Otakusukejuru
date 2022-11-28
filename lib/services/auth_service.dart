@@ -31,7 +31,6 @@ class AuthService {
   }
 
   // Mudar nickname do usuario
-  // TODO colocar validador para quando usuario estiver sem internet
   changeUserName({required String userName}) {
     _auth.currentUser?.updateDisplayName(userName);
   }

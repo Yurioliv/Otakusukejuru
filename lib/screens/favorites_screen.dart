@@ -23,8 +23,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   // Variavel que informa se a função de pesquisa por nome esta selecionada
   var isNameSearchSelected = false;
-  final _NameSeachController = TextEditingController();
-  String _NameForSearch = "";
+  final _nameSeachController = TextEditingController();
+  String _nameForSearch = "";
   // Variavel que informa se a função de pesquisa por genero esta selecionada
   var isGenreSearchSelected = false;
   List<String> genreList = [];
@@ -51,18 +51,18 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   void initState() {
     super.initState();
-    _NameSeachController.addListener((_updateNameForSearch));
+    _nameSeachController.addListener((_updateNameForSearch));
   }
 
   @override
   void dispose() {
-    _NameSeachController.dispose();
+    _nameSeachController.dispose();
     super.dispose();
   }
 
   void _updateNameForSearch() {
     setState(() {
-      _NameForSearch = _NameSeachController.text;
+      _nameForSearch = _nameSeachController.text;
     });
   }
 
@@ -82,13 +82,13 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         appBar: AppBar(
           backgroundColor: const Color(0xff23272A),
           title: isNameSearchSelected
-              ? SearchTextField(controlador: _NameSeachController)
+              ? SearchTextField(controlador: _nameSeachController)
               : isGenreSearchSelected
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "$pageName $tipoPagina",
+                          "$tipoPagina $pageName",
                           style: const TextStyle(fontSize: 22.0),
                         ),
                         Text(
@@ -101,14 +101,13 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       ],
                     )
                   : Text(
-                      "$pageName $tipoPagina",
+                      "$tipoPagina $pageName",
                       style: const TextStyle(fontSize: 24.0),
                     ),
           iconTheme: const IconThemeData(
             size: 32,
             color: Colors.white,
           ),
-          // TODO adicionar funções nos gestureDetectors abaixo, talvez tenha que diminuir espaço entre icones
           actions: [
             if (isNameSearchSelected == true ||
                 isGenreSearchSelected == true) ...[
@@ -118,13 +117,13 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                     isNameSearchSelected = false;
                     isGenreSearchSelected = false;
                     genreList = [];
-                    _NameSeachController.text = "";
+                    _nameSeachController.text = "";
                   });
                 },
                 child: const Icon(Icons.close),
               ),
               SizedBox(
-                width: mediaquery.size.width * 0.04,
+                width: mediaquery.size.width * 0.03,
               ),
             ],
             GestureDetector(
@@ -136,7 +135,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               child: const Icon(Icons.search),
             ),
             SizedBox(
-              width: mediaquery.size.width * 0.04,
+              width: mediaquery.size.width * 0.03,
             ),
             GestureDetector(
               onTap: () {
@@ -145,7 +144,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               child: const Icon(Icons.label),
             ),
             SizedBox(
-              width: mediaquery.size.width * 0.04,
+              width: mediaquery.size.width * 0.03,
             ),
           ],
         ),
@@ -282,7 +281,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               default:
                 var indexUser;
                 var indexObra = [];
-                var obraEpisodioOuCapitulo;
+                String obraEpisodioOuCapitulo;
 
                 if (tipoPagina == "Animes") {
                   obraEpisodioOuCapitulo = "Episodio";
@@ -338,7 +337,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                 i < snapshoot2.data!.docs.length;
                                 i++) {
                               // Checa nome e generos
-                              List<int> ListForCheckAllGenres = [];
+                              List<int> listForCheckAllGenres = [];
                               for (int j = 0; j < genreList.length; j++) {
                                 if (!listOfElements.contains(i) &&
                                     snapshoot2.data!.docs
@@ -346,9 +345,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                         .get("Generos")
                                         .contains(genreList[j]) &&
                                     indexObra.contains(i)) {
-                                  ListForCheckAllGenres.add(j);
+                                  listForCheckAllGenres.add(j);
                                 }
-                                if (ListForCheckAllGenres.length ==
+                                if (listForCheckAllGenres.length ==
                                         genreList.length &&
                                     snapshoot2.data!.docs
                                         .elementAt(i)
@@ -356,14 +355,13 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                         .toString()
                                         .toLowerCase()
                                         .contains(
-                                            _NameForSearch.toLowerCase()) &&
+                                            _nameForSearch.toLowerCase()) &&
                                     indexObra.contains(i)) {
                                   listOfElements.add(i);
                                 }
                               }
                             }
                           } else if (isNameSearchSelected == true) {
-                            // TODO mudar para receber nome a partir de textcontroller
                             for (int i = 0;
                                 i < snapshoot2.data!.docs.length;
                                 i++) {
@@ -372,7 +370,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                       .get("Nome")
                                       .toString()
                                       .toLowerCase()
-                                      .contains(_NameForSearch.toLowerCase()) &&
+                                      .contains(_nameForSearch.toLowerCase()) &&
                                   indexObra.contains(i)) {
                                 listOfElements.add(i);
                               }
@@ -381,7 +379,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                             for (int i = 0;
                                 i < snapshoot2.data!.docs.length;
                                 i++) {
-                              List<int> ListForCheckAllGenres = [];
+                              List<int> listForCheckAllGenres = [];
                               // TODO mudar para receber 1 genero a partir de uma variavel não constante
                               for (int j = 0; j < genreList.length; j++) {
                                 if (!listOfElements.contains(i) &&
@@ -390,9 +388,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                         .get("Generos")
                                         .contains(genreList[j]) &&
                                     indexObra.contains(i)) {
-                                  ListForCheckAllGenres.add(j);
+                                  listForCheckAllGenres.add(j);
                                 }
-                                if (ListForCheckAllGenres.length ==
+                                if (listForCheckAllGenres.length ==
                                         genreList.length &&
                                     indexObra.contains(i)) {
                                   listOfElements.add(i);
@@ -408,11 +406,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                               }
                             }
                           }
-
-                          print("Index Obra $indexObra");
-                          print("Lista elementos $listOfElements");
-                          print(
-                              "Lista da posição dos itens $listWithPositionOfSearchItens");
 
                           return GridView.builder(
                             gridDelegate:
@@ -431,9 +424,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                             itemBuilder: (context, index) {
                               // Variavel de index para selecionar as obras na snapshoot
                               int customIndex;
-
-                              print("index $index");
-                              print("indexObra[index] ${indexObra[index]}");
 
                               // Definindo a variavel de index i para todas as obras do banco de dados
                               if (isGenreSearchSelected == false &&

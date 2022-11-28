@@ -22,8 +22,8 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
 
   // Variavel que informa se a função de pesquisa por nome esta selecionada
   var isNameSearchSelected = false;
-  final _NameSeachController = TextEditingController();
-  String _NameForSearch = "";
+  final _nameSeachController = TextEditingController();
+  String _nameForSearch = "";
   // Variavel que informa se a função de pesquisa por genero esta selecionada
   var isGenreSearchSelected = false;
   List<String> genreList = [];
@@ -50,18 +50,18 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
   @override
   void initState() {
     super.initState();
-    _NameSeachController.addListener((_updateNameForSearch));
+    _nameSeachController.addListener((_updateNameForSearch));
   }
 
   @override
   void dispose() {
-    _NameSeachController.dispose();
+    _nameSeachController.dispose();
     super.dispose();
   }
 
   void _updateNameForSearch() {
     setState(() {
-      _NameForSearch = _NameSeachController.text;
+      _nameForSearch = _nameSeachController.text;
     });
   }
 
@@ -81,7 +81,7 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
         appBar: AppBar(
           backgroundColor: const Color(0xff23272A),
           title: isNameSearchSelected
-              ? SearchTextField(controlador: _NameSeachController)
+              ? SearchTextField(controlador: _nameSeachController)
               : isGenreSearchSelected
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,7 +107,6 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
             size: 32,
             color: Colors.white,
           ),
-          // TODO adicionar funções nos gestureDetectors abaixo, talvez tenha que diminuir espaço entre icones
           actions: [
             if (isNameSearchSelected == true ||
                 isGenreSearchSelected == true) ...[
@@ -117,7 +116,7 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
                     isNameSearchSelected = false;
                     isGenreSearchSelected = false;
                     genreList = [];
-                    _NameSeachController.text = "";
+                    _nameSeachController.text = "";
                   });
                 },
                 child: const Icon(Icons.close),
@@ -285,51 +284,49 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
                     isNameSearchSelected == true) {
                   for (int i = 0; i < snapshoot.data!.docs.length; i++) {
                     // Checa nome e generos
-                    List<int> ListForCheckAllGenres = [];
+                    List<int> listForCheckAllGenres = [];
                     for (int j = 0; j < genreList.length; j++) {
                       if (!listOfElements.contains(i) &&
                           snapshoot.data!.docs
                               .elementAt(i)
                               .get("Generos")
                               .contains(genreList[j])) {
-                        ListForCheckAllGenres.add(j);
+                        listForCheckAllGenres.add(j);
                       }
-                      if (ListForCheckAllGenres.length == genreList.length &&
+                      if (listForCheckAllGenres.length == genreList.length &&
                           snapshoot.data!.docs
                               .elementAt(i)
                               .get("Nome")
                               .toString()
                               .toLowerCase()
-                              .contains(_NameForSearch.toLowerCase())) {
+                              .contains(_nameForSearch.toLowerCase())) {
                         listOfElements.add(i);
                       }
                     }
                   }
                 } else if (isNameSearchSelected == true) {
-                  // TODO mudar para receber nome a partir de textcontroller
                   for (int i = 0; i < snapshoot.data!.docs.length; i++) {
                     if (snapshoot.data!.docs
                         .elementAt(i)
                         .get("Nome")
                         .toString()
                         .toLowerCase()
-                        .contains(_NameForSearch.toLowerCase())) {
+                        .contains(_nameForSearch.toLowerCase())) {
                       listOfElements.add(i);
                     }
                   }
                 } else if (isGenreSearchSelected == true) {
                   for (int i = 0; i < snapshoot.data!.docs.length; i++) {
-                    List<int> ListForCheckAllGenres = [];
-                    // TODO mudar para receber 1 genero a partir de uma variavel não constante
+                    List<int> listForCheckAllGenres = [];
                     for (int j = 0; j < genreList.length; j++) {
                       if (!listOfElements.contains(i) &&
                           snapshoot.data!.docs
                               .elementAt(i)
                               .get("Generos")
                               .contains(genreList[j])) {
-                        ListForCheckAllGenres.add(j);
+                        listForCheckAllGenres.add(j);
                       }
-                      if (ListForCheckAllGenres.length == genreList.length) {
+                      if (listForCheckAllGenres.length == genreList.length) {
                         listOfElements.add(i);
                       }
                     }
@@ -348,7 +345,7 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
                       ? snapshoot.data?.docs.length
                       : listOfElements.length,
                   itemBuilder: (context, index) {
-                    var obraEpisodioOuCapitulo;
+                    String obraEpisodioOuCapitulo;
 
                     // Variavel de index para selecionar as obras na snapshoot
                     int i;
