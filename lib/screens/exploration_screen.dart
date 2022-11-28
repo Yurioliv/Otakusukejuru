@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:otakusukejuru/components/color_of_marcation.dart';
 import 'package:otakusukejuru/components/drawer_for_pages.dart';
+import 'package:otakusukejuru/components/search_textfield.dart';
 import 'package:otakusukejuru/screens/anime_screen.dart';
 import 'package:otakusukejuru/screens/manga_screen.dart';
 
@@ -13,42 +14,133 @@ class ExplorationScreen extends StatefulWidget {
 }
 
 class _ExplorationScreenState extends State<ExplorationScreen> {
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
+
   // Nome que sera apresentado na APPBAR
   static const String pageName = 'Explorar';
   String tipoPagina = "Animes";
 
+  // Variavel que informa se a função de pesquisa por nome esta selecionada
+  var isNameSearchSelected = false;
+  final _NameSeachController = TextEditingController();
+  String _NameForSearch = "";
+  // Variavel que informa se a função de pesquisa por genero esta selecionada
+  var isGenreSearchSelected = false;
+  List<String> genreList = [];
+
+  final List<String> genres = [
+    "Ação",
+    "Aventura",
+    "Seinen",
+    "Historica",
+    "Militar",
+    "Publico Adulto",
+    "Shounen",
+    "Comédia",
+    "Escolar",
+    "Romance",
+    "Sobrenatural",
+    "Horror",
+    "Esportes",
+    "Super Poderes",
+    "Artes Marciais",
+    "Fantasia"
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _NameSeachController.addListener((_updateNameForSearch));
+  }
+
+  @override
+  void dispose() {
+    _NameSeachController.dispose();
+    super.dispose();
+  }
+
+  void _updateNameForSearch() {
+    setState(() {
+      _NameForSearch = _NameSeachController.text;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaquery = MediaQuery.of(context);
+
     //Retorna a tela do programa em si.
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
+        key: _key,
         backgroundColor: const Color(0xff2C2F33),
         // Appbar do scaffold
         appBar: AppBar(
           backgroundColor: const Color(0xff23272A),
-          title: Text(
-            "$pageName $tipoPagina",
-            style: const TextStyle(fontSize: 24.0),
-          ),
+          title: isNameSearchSelected
+              ? SearchTextField(controlador: _NameSeachController)
+              : isGenreSearchSelected
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "$pageName $tipoPagina",
+                          style: const TextStyle(fontSize: 22.0),
+                        ),
+                        Text(
+                          genreList
+                              .toString()
+                              .replaceAll("[", "")
+                              .replaceAll(']', ""),
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ],
+                    )
+                  : Text(
+                      "$pageName $tipoPagina",
+                      style: const TextStyle(fontSize: 24.0),
+                    ),
           iconTheme: const IconThemeData(
             size: 32,
             color: Colors.white,
           ),
-          // TODO adicionar funções nos gestureDetectors abaixo
+          // TODO adicionar funções nos gestureDetectors abaixo, talvez tenha que diminuir espaço entre icones
           actions: [
+            if (isNameSearchSelected == true ||
+                isGenreSearchSelected == true) ...[
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    isNameSearchSelected = false;
+                    isGenreSearchSelected = false;
+                    genreList = [];
+                    _NameSeachController.text = "";
+                  });
+                },
+                child: const Icon(Icons.close),
+              ),
+              SizedBox(
+                width: mediaquery.size.width * 0.04,
+              ),
+            ],
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                setState(() {
+                  isNameSearchSelected = true;
+                });
+              },
               child: const Icon(Icons.search),
             ),
             SizedBox(
               width: mediaquery.size.width * 0.04,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                _key.currentState!.openEndDrawer();
+              },
               child: const Icon(Icons.label),
             ),
             SizedBox(
@@ -124,6 +216,53 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
             ),
           ),
         ),
+        // Drawer da direita do scaffold
+        endDrawer: SizedBox(
+          width: mediaquery.size.width * 0.6,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                for (int i = 0; i < genres.length; i++) ...[
+                  // ListTile com um genero
+                  Container(
+                    color: genreList.contains(genres[i])
+                        ? const Color(0xFF7289DA)
+                        : const Color(0xff23272A),
+                    child: ListTile(
+                      title: Text(
+                        genres[i],
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      onTap: () {
+                        // Adicionando ou removendo genero da lista
+                        if (genreList.contains(genres[i])) {
+                          setState(() {
+                            genreList.remove(genres[i]);
+                          });
+                        } else {
+                          setState(() {
+                            genreList.add(genres[i]);
+                          });
+                        }
+
+                        // Ligando ou desligando busca por genero
+                        if (genreList.isNotEmpty) {
+                          setState(() {
+                            isGenreSearchSelected = true;
+                          });
+                        } else {
+                          isGenreSearchSelected = false;
+                        }
+                      },
+                    ),
+                  ),
+                  // Cria a linha divisora entre as opções
+                ]
+              ],
+            ),
+          ),
+        ),
         // Drawer do scaffold
         drawer: const DrawerForPages(),
         // Body do scaffold
@@ -140,6 +279,63 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
                   child: CircularProgressIndicator(),
                 );
               default:
+                // lista com os index das obras que possuem um determinado nome/genero
+                List<int> listOfElements = [];
+                if (isGenreSearchSelected == true &&
+                    isNameSearchSelected == true) {
+                  for (int i = 0; i < snapshoot.data!.docs.length; i++) {
+                    // Checa nome e generos
+                    List<int> ListForCheckAllGenres = [];
+                    for (int j = 0; j < genreList.length; j++) {
+                      if (!listOfElements.contains(i) &&
+                          snapshoot.data!.docs
+                              .elementAt(i)
+                              .get("Generos")
+                              .contains(genreList[j])) {
+                        ListForCheckAllGenres.add(j);
+                      }
+                      if (ListForCheckAllGenres.length == genreList.length &&
+                          snapshoot.data!.docs
+                              .elementAt(i)
+                              .get("Nome")
+                              .toString()
+                              .toLowerCase()
+                              .contains(_NameForSearch.toLowerCase())) {
+                        listOfElements.add(i);
+                      }
+                    }
+                  }
+                } else if (isNameSearchSelected == true) {
+                  // TODO mudar para receber nome a partir de textcontroller
+                  for (int i = 0; i < snapshoot.data!.docs.length; i++) {
+                    if (snapshoot.data!.docs
+                        .elementAt(i)
+                        .get("Nome")
+                        .toString()
+                        .toLowerCase()
+                        .contains(_NameForSearch.toLowerCase())) {
+                      listOfElements.add(i);
+                    }
+                  }
+                } else if (isGenreSearchSelected == true) {
+                  for (int i = 0; i < snapshoot.data!.docs.length; i++) {
+                    List<int> ListForCheckAllGenres = [];
+                    // TODO mudar para receber 1 genero a partir de uma variavel não constante
+                    for (int j = 0; j < genreList.length; j++) {
+                      if (!listOfElements.contains(i) &&
+                          snapshoot.data!.docs
+                              .elementAt(i)
+                              .get("Generos")
+                              .contains(genreList[j])) {
+                        ListForCheckAllGenres.add(j);
+                      }
+                      if (ListForCheckAllGenres.length == genreList.length) {
+                        listOfElements.add(i);
+                      }
+                    }
+                  }
+                }
+
                 return GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
@@ -147,9 +343,25 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
                   ),
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  itemCount: snapshoot.data?.docs.length,
+                  itemCount: isGenreSearchSelected == false &&
+                          isNameSearchSelected == false
+                      ? snapshoot.data?.docs.length
+                      : listOfElements.length,
                   itemBuilder: (context, index) {
                     var obraEpisodioOuCapitulo;
+
+                    // Variavel de index para selecionar as obras na snapshoot
+                    int i;
+
+                    // Definindo a variavel de index i para todas as obras do banco de dados
+                    if (isGenreSearchSelected == false &&
+                        isNameSearchSelected == false) {
+                      i = index;
+                    }
+                    // Definindo a variavel de index i para as obras do banco de dados que correspondem aos filtros de nome ou genero
+                    else {
+                      i = listOfElements[index];
+                    }
 
                     if (tipoPagina == "Animes") {
                       obraEpisodioOuCapitulo = "Episodio";
@@ -168,23 +380,23 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
                                     MaterialPageRoute(
                                         builder: (context) => AnimeScreen(
                                               snapshot: snapshoot.data!.docs
-                                                  .elementAt(index),
+                                                  .elementAt(i),
                                             )))
                                 : () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => MangaScreen(
                                             snapshot: snapshoot.data!.docs
-                                                .elementAt(index)))),
+                                                .elementAt(i)))),
                             child: GridTile(
                               child: Column(
                                 children: <Widget>[
                                   SizedBox(
-                                    height: mediaquery.size.height * 0.21,
+                                    height: mediaquery.size.height * 0.19,
                                     width: mediaquery.size.width * 0.3,
                                     child: Image.network(
                                       snapshoot.data!.docs
-                                          .elementAt(index)
+                                          .elementAt(i)
                                           .get("Url capa"),
                                       fit: BoxFit.fill,
                                       loadingBuilder: (BuildContext contex,
@@ -208,12 +420,10 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
                                       },
                                     ),
                                   ),
-                                  const SizedBox(
-                                    height: 2,
-                                  ),
+                                  const SizedBox(height: 2),
                                   Text(
                                     snapshoot.data!.docs
-                                        .elementAt(index)
+                                        .elementAt(i)
                                         .get("Nome"),
                                     style: const TextStyle(
                                       color: Colors.white,
@@ -226,10 +436,8 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
                                   // Mostra o numero do ultimo episodio/capitulo e cor de acordo com a data
                                   Container(
                                     decoration: BoxDecoration(
-                                      color: colorForMarcation(snapshoot
-                                          .data!.docs
-                                          .elementAt(index)
-                                          .get(
+                                      color: colorForMarcation(
+                                          snapshoot.data!.docs.elementAt(i).get(
                                               "Data Ultimo $obraEpisodioOuCapitulo")),
                                       borderRadius: const BorderRadius.all(
                                         Radius.circular(10),
@@ -240,7 +448,7 @@ class _ExplorationScreenState extends State<ExplorationScreen> {
                                     child: Center(
                                       child: Text(
                                         snapshoot.data!.docs
-                                            .elementAt(index)
+                                            .elementAt(i)
                                             .get(
                                                 "Ultimo $obraEpisodioOuCapitulo")
                                             .toString(),
