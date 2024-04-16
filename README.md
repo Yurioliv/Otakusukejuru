@@ -1,16 +1,12 @@
 # otakusukejuru
 
-A new Flutter project.
+A project in Flutter, carried out during Computer Science college, to learn Flutter, as well as learning how to manipulate the Firebase online database.
 
-## Getting Started
+This application tries to create an "Diary" for marking mangas, which are Japanese comic books, in order to mark the chapters already read.
 
-This project is a starting point for a Flutter application.
+----------------------------
 
-A few resources to get you started if this is your first Flutter project:
+Um projeto em Flutter, realizado durante a faculdade de Ciencia da Computação, para aprendizado de Flutter, assim como o aprendizado de manipulação do banco de dados online Firebase.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Esta aplicação tenta criar uma "Agenda" para marcação de mangas, que são revista em quadrinhos japonesas, de forma a marcar os capitulos ja lidos das mesmas.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
